@@ -45,7 +45,7 @@ export default defineConfig({
 		},
 		imageService: "compile"
 	}),
-	site: "https://thought-lite.ttio.workers.dev",
+	site: "https://feli77.com",
 	trailingSlash: "never",
 	i18n: {
 		...siteConfig.i18n,

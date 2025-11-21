@@ -4,6 +4,7 @@
 	"private": true,
 	"version": "0.26.3",
 	"description": "A modern Astro theme focused on content creation",
+	"workspaces": [],
 	"keywords": [
 		"astro",
 		"theme",

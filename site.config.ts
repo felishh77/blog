@@ -1,28 +1,25 @@
 import siteConfig from "./src/utils/config";
 
 const config = siteConfig({
-	title: "ThoughtLite",
-	prologue: "If you need a website\nthat loads fast and has great SEO, then Astro is for you.",
+	title: "Felix's Blog",
+	prologue: "The time is gone, the song is over\nThought I'd something more to say.",
 	author: {
-		name: "Your Name",
-		email: "hi@your.mail",
-		link: "https://your.website"
+		name: "Felix",
+		email: "l.shuheng@outlook.com",
+		link: "https://feli77.com"
 	},
-	description: "A modern Astro theme focused on content creation.",
+	description: "A personal space to share knowledge and thoughts.",
 	copyright: {
 		type: "CC BY-NC-ND 4.0",
 		year: "2025"
 	},
 	i18n: {
 		locales: ["en", "zh-cn", "ja"],
-		defaultLocale: "en"
+		defaultLocale: "zh-cn"
 	},
 	feed: {
 		section: "*",
 		limit: 20
-	},
-	comment: {
-		"max-length": 500
 	},
 	latest: "*"
 });
