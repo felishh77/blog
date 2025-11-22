@@ -67,6 +67,7 @@
 			.link-icon("\202F \202F", 0.8em, 0.05em);
 		}
 
+
 		&:not([target="_blank"], [data-footnote-ref], [data-footnote-backref]) {
 			.link-icon("\202F \202F", 0.85em, 0.05em);
 
@@ -240,8 +241,10 @@
 	}
 
 	div.table-wrapper {
+		margin: 1em auto;
 		padding-bottom: 0.5em;
 		overflow-x: auto;
+		// max-width: fit-content;
 	}
 
 	table {
@@ -407,13 +410,17 @@
 	}
 }
 
+a.card-github::after {
+	content: none !important;
+}
 
 .card-github {
 	display: block;
 	background: var(--block-color);
 	color: var(--primary-color);
+	width: min(80%, 500px);
+	margin: 2.5rem auto;
 	position: relative;
-	margin: 2.5rem 0;
 	padding: 1.1rem 1.5rem;
 	border-radius: 0.5rem;
 	text-decoration-thickness: 0;

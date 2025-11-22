@@ -1,7 +1,7 @@
 import siteConfig from "./src/utils/config";
 
 const config = siteConfig({
-	title: "Felix's Blog",
+	title: "Felix's Campsite",
 	prologue: "The time is gone, the song is over\nThought I'd something more to say.",
 	author: {
 		name: "Felix",
