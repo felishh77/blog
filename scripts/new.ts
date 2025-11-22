@@ -233,15 +233,15 @@ ${content}
 	waiting.stop(`✅ ${t("new.created")}`);
 
 	// Ask if user wants to open the file in VS Code
-	const openInVSCode = await confirm({
+	const openInNvim = await confirm({
 		message: `🖥️ ${t("new.open.message")}`,
 		initialValue: true
 	});
 
 	// Open file in VS Code if confirmed
-	if (!isCancel(openInVSCode) && openInVSCode) {
+	if (!isCancel(openInNvim) && openInNvim) {
 		const { exec } = await import("node:child_process");
-		exec(`code "${path}"`, error => error && log.error(`${t("new.open.error")}: ${error.message}`));
+		exec(`nvim "${path}"`, error => error && log.error(`${t("new.open.error")}: ${error.message}`));
 	}
 
 	outro(`🎉 ${t("new.done")}`);

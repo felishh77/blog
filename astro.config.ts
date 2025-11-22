@@ -8,7 +8,6 @@ import svelte from "@astrojs/svelte";
 import UnoCSS from "unocss/astro";
 import swup from "@swup/astro";
 import icon from "astro-icon";
-import githubLight from "shiki/themes/github-light.mjs";
 
 import GFM from "remark-gfm";
 import ins from "remark-ins";
@@ -23,10 +22,14 @@ import directive from "remark-directive";
 import ruby from "remark-ruby-directive";
 import alerts from "remark-github-blockquote-alert";
 import { rehypeHeadingIds as ids } from "@astrojs/markdown-remark";
+import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
+
 import anchor from "rehype-autolink-headings";
 import links from "rehype-external-links";
 import katex from "rehype-katex";
 import sectionize from "@hbsnow/rehype-sectionize";
+import rehypeComponents from "rehype-components";
+import rehypeSlug from "rehype-slug";
 
 import spoiler from "./src/utils/remark/spoiler";
 import abbr from "./src/utils/remark/abbr";
@@ -34,8 +37,11 @@ import wrapper from "./src/utils/remark/table-wrapper";
 import copy from "./src/utils/code-copy";
 import reading from "./src/utils/remark/reading";
 import figure from "./src/utils/remark/figure";
+import GithubCardComponent from "./src/utils/rehype/github-card.mjs";
+import parseDirectiveNode from "./src/utils/remark/directive.mjs";
 
 import siteConfig from "./site.config";
+import remarkComponentEmbed from "./src/utils/remark/embed.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -74,7 +80,10 @@ export default defineConfig({
 			directive,
 			ruby,
 			[alerts, { legacyTitle: true }],
-			reading
+			reading,
+			remarkGithubAdmonitionsToDirectives,
+			remarkComponentEmbed,
+			parseDirectiveNode
 		],
 		remarkRehype: {
 			footnoteLabel: null,
@@ -92,18 +101,15 @@ export default defineConfig({
 			[links, { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] }],
 			katex,
 			figure,
-			sectionize
+			sectionize,
+			[rehypeComponents, { components: { github: GithubCardComponent } }],
+			rehypeSlug
 		],
 		smartypants: false,
 		shikiConfig: {
 			themes: {
-				light: {
-					...githubLight,
-					colorReplacements: {
-						"#fff": "var(--block-color)"
-					}
-				},
-				dark: "dark-plus"
+				light: "catppuccin-latte",
+				dark: "catppuccin-mocha"
 			},
 			transformers: [
 				copy({

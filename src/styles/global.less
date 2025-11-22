@@ -20,20 +20,17 @@
 	--selection-color: #adadacc3;
 }
 
-.code-dark() {
-
-	.astro-code,
-	.astro-code span {
-		color: var(--shiki-dark) !important;
-		background-color: var(--shiki-dark-bg) !important;
-	}
-}
 
 :root {
 	.light-theme();
-	--font-serif: "Noto Serif", serif;
-	--font-monospace: "Maple Mono NF CN", monospace;
-	--font-cursive: "Playwrite MX", "The Peak Font Plus", serif;
+
+	--font-serif: "Noto Serif",
+		serif;
+	--font-monospace: "Maple Mono NF CN",
+		monospace;
+	--font-cursive: "Playwrite MX",
+		"The Peak Font Plus",
+		serif;
 	--swup-fade-theme-duration: .15s;
 }
 
@@ -49,17 +46,25 @@
 	:root {
 		.dark-theme();
 	}
-
-	.code-dark();
 }
 
 [data-theme="light"] {
 	.light-theme();
+
+	.astro-code,
+	.astro-code span {
+		background-color: var(--block-color) !important;
+	}
 }
 
 [data-theme="dark"] {
 	.dark-theme();
-	.code-dark();
+
+	.astro-code,
+	.astro-code span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--block-color) !important;
+	}
 }
 
 * {
