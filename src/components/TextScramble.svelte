@@ -15,8 +15,8 @@ class TextScramble {
 		for (let i = 0; i < length; i++) {
 			const from = oldText[i] || "";
 			const to = newText[i] || "";
-			const start = Math.floor(Math.random() * 100);
-			const end = start + Math.floor(Math.random() * 100);
+			const start = Math.floor(Math.random() * 75);
+			const end = start + Math.floor(Math.random() * 75);
 			this.queue.push({ from, to, start, end });
 		}
 		cancelAnimationFrame(this.frameRequest);
@@ -56,15 +56,15 @@ class TextScramble {
 }
 
 const phrases = [
-	"I'm still here,",
-	"everywhere",
-	"I'm the dust in the wind",
-	"I'm the star in the northern sky",
-	"I never stayed,",
-	"anywhere",
-	"I'm the wind in the trees",
-	"Would you wait for me,",
-	"forever."
+	"Hi!",
+	"Welcome to this blog!",
+	"I'm Felix,",
+	"A drifter in the world",
+	"just like you.",
+	"This is not only a site,",
+	"it's also a campsite.'",
+	"It brings warmth to me",
+	"and hopefully to you."
 ];
 
 let el;
@@ -80,7 +80,7 @@ onMount(() => {
 		fx.setText(phrase).then(() => {
 			// 根据 phrase 长度计算延迟：每个字符 80ms，最小 500ms，最大 3000ms
 			let delay = Math.min(Math.max(phrase.length * 80, 500), 3000);
-			if (phrase === "forever.") {
+			if (phrase === "and hopefully to you.") {
 				delay = 5000; // 例如 5 秒
 			}
 			setTimeout(next, delay);
