@@ -106,8 +106,8 @@ export default defineConfig({
 		smartypants: false,
 		shikiConfig: {
 			themes: {
-				light: "catppuccin-latte",
-				dark: "catppuccin-mocha"
+				light: "material-theme-lighter",
+				dark: "material-theme-darker"
 			},
 			transformers: [
 				copy({

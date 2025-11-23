@@ -83,9 +83,10 @@ const embedHandlers = {
 		return `
       <iframe
         style="border-radius:0.5rem"
-        src="https://www.youtube.com/embed/${videoId}"	
+        src="https://www.youtube.com/embed/${videoId}"
         title="YouTube video player"
-		width="100%"
+	width="100%"
+	height="480"
         loading="lazy"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -110,7 +111,8 @@ const embedHandlers = {
       <iframe
         style="border-radius:0.5rem"
         src="//player.bilibili.com/player.html?isOutside=true&bvid=${bvid}&p=1&autoplay=0&muted=0"
-		width="100%"
+	width="100%"
+	height="480"
         title="Bilibili video player"
         loading="lazy"
         scrolling="no"
@@ -171,7 +173,6 @@ const embedHandlers = {
   <div id="${cardId}-description" class="gc-description">Description not set.</div>
 
   <div class="gc-infobar">
-		text-decoration: none;
     <div id="${cardId}-stars"   class="gc-stars">Loading</div>
     <div id="${cardId}-forks"   class="gc-forks">Loading</div>
     <div id="${cardId}-license" class="gc-license">Loading</div>

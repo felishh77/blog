@@ -195,20 +195,20 @@ $$
 ### 注释
 
 ```markdown
-在引用的地方使用 [^注释] 来添加注释。
+在引用的地方使用 [^脚标] 来添加注释。
 
 然后在文档的结尾，添加注释的内容（会默认于文章结尾渲染之）。
 
-[^注释]: 这里是注释的内容
+[^脚标]: 这里是注释的内容
 ```
 
 预览：
 
-在引用的地方使用 [^注释] 来添加注释。
+在引用的地方使用 [^1] 来添加注释。
 
 然后在文档的结尾，添加注释的内容（会默认于文章结尾渲染之）。
 
-[^注释]: 这里是注释的内容
+[^1]: 这里是注释的内容
 
 ### To-Do 列表
 
@@ -318,11 +318,15 @@ $$
 
 ### 视频播放器
 
+#### Youtube[^2]
+
 ```markdown
 ::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4}
 ```
 
 ::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4"}
+
+#### Bilibili
 
 ```markdown
 ::bilibili{url="https://www.bilibili.com/video/BV1os411q7pf"}
@@ -332,6 +336,8 @@ $$
 
 ### 音乐播放器
 
+#### Spotify[^2]
+
 ```markdown
 ::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
 ```
@@ -349,3 +355,5 @@ $$
 ```
 
 ::spotify{url="https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"}
+
+[^2]: 查看需要外网连接
