@@ -420,18 +420,27 @@ a.card-github::after {
 	color: var(--primary-color);
 	width: min(80%, 500px);
 	margin: 2.5rem auto;
+
+	@media screen and (max-width: 480px) {
+		width: auto;
+		margin: 0 0;
+	}
+
 	position: relative;
 	padding: 1.1rem 1.5rem;
 	border-radius: 0.5rem;
-	text-decoration-thickness: 0;
-	text-decoration-line: none;
+	text-decoration: none;
+	transition: background 0.2s ease-out;
 
 	&:hover {
 		background-color: var(--shadow-color);
+		text-decoration: none;
+
 	}
 
 	&:active {
-		scale: 0.98;
+		scale: 0.9;
+		text-decoration: none;
 	}
 
 	.gc-titlebar {
@@ -441,6 +450,10 @@ a.card-github::after {
 		margin-bottom: 0.5rem;
 		font-size: 1.25rem;
 		font-weight: 500;
+
+		@media screen and (max-width: 480px) {
+			font-size: 1rem;
+		}
 
 		.gc-titlebar-left {
 			display: flex;
@@ -482,6 +495,10 @@ a.card-github::after {
 		font-size: 1rem;
 		font-weight: 300;
 		line-height: 1.5rem;
+
+		@media screen and (max-width: 480px) {
+			font-size: 0.85rem;
+		}
 	}
 
 	.gc-infobar {
@@ -579,4 +596,22 @@ a.card-github::after {
 		pointer-events: all;
 		opacity: 1;
 	}
+}
+
+.video-wrapper {
+	position: relative;
+	width: 100%;
+	padding-bottom: 56.25%;
+	/* 16:9 */
+	height: 0;
+	overflow: hidden;
+}
+
+.video-wrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
 }

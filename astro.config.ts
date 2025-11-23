@@ -28,7 +28,7 @@ import anchor from "rehype-autolink-headings";
 import links from "rehype-external-links";
 import katex from "rehype-katex";
 import sectionize from "@hbsnow/rehype-sectionize";
-import rehypeComponents from "rehype-components";
+// import rehypeComponents from "rehype-components";
 import rehypeSlug from "rehype-slug";
 
 import spoiler from "./src/utils/remark/spoiler";
@@ -37,11 +37,10 @@ import wrapper from "./src/utils/remark/table-wrapper";
 import copy from "./src/utils/code-copy";
 import reading from "./src/utils/remark/reading";
 import figure from "./src/utils/remark/figure";
-import GithubCardComponent from "./src/utils/rehype/github-card.mjs";
 import parseDirectiveNode from "./src/utils/remark/directive.mjs";
 
 import siteConfig from "./site.config";
-import remarkComponentEmbed from "./src/utils/remark/embed.mjs";
+import remarkEmbeddedMedia from "./src/utils/remark/remark-embedded-media.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -82,8 +81,8 @@ export default defineConfig({
 			[alerts, { legacyTitle: true }],
 			reading,
 			remarkGithubAdmonitionsToDirectives,
-			remarkComponentEmbed,
-			parseDirectiveNode
+			parseDirectiveNode,
+			remarkEmbeddedMedia
 		],
 		remarkRehype: {
 			footnoteLabel: null,
@@ -102,7 +101,6 @@ export default defineConfig({
 			katex,
 			figure,
 			sectionize,
-			[rehypeComponents, { components: { github: GithubCardComponent } }],
 			rehypeSlug
 		],
 		smartypants: false,

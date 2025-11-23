@@ -2,7 +2,8 @@
 title: 留言板
 timestamp: 2025-11-23 00:22:01+08:00
 description: 有什么想说的都可以发在这里，让我和旅人们听到你的想法~
-draft: true
+draft: false
+top: 10
 ---
 
 **欢迎在评论区留下你的想法!**

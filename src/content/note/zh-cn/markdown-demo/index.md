@@ -6,7 +6,7 @@ description: 展示本站所用到的Markdown特性以及渲染效果
 draft: false
 ---
 
-## Markdown语法
+## Markdown基础语法
 
 Markdown 是一种轻量级且易于使用的语法，用于为您的写作设计风格。
 
@@ -22,6 +22,10 @@ Markdown 是一种轻量级且易于使用的语法，用于为您的写作设�
 ### 三级标题
 
 #### 四级标题
+
+##### 五级标题
+
+###### 六级标题
 ```
 
 标题预览会打乱文章的结构，所以在此不展示。
@@ -90,7 +94,7 @@ function fibonacci(n) {
 
 ### 行内公式
 
-```markdown
+```latex
 这是一条行内公式 $e^{i\pi} + 1 = 0$
 ```
 
@@ -100,7 +104,7 @@ function fibonacci(n) {
 
 ### 公式块
 
-```markdown
+```latex
 $$
 \hat{f}(\xi) = \int_{-\infty}^{\infty} f(x) e^{-2\pi i x \xi} \, dx
 $$
@@ -230,11 +234,13 @@ $$
 
 引用里也可以继续嵌套语法。
 
-## Callout
+## 扩展功能
+
+### GitHub Alert
 
 ::github{repo="jaywcjlove/remark-github-blockquote-alert"}
 
-```
+```markdown
 > [!NOTE]
 > 常规信息
 ```
@@ -242,7 +248,7 @@ $$
 > [!NOTE]
 > 常规信息
 
-```
+```markdown
 > [!TIP]
 > 可选信息
 ```
@@ -250,7 +256,7 @@ $$
 > [!TIP]
 > 可选信息
 
-```
+```markdown
 > [!IMPORTANT]
 > 重要信息
 ```
@@ -258,7 +264,7 @@ $$
 > [!IMPORTANT]
 > 重要信息
 
-```
+```markdown
 > [!WARNING]
 > 风险信息
 ```
@@ -266,7 +272,7 @@ $$
 > [!WARNING]
 > 风险信息
 
-```
+```markdown
 > [!CAUTION]
 > 警告信息
 ```
@@ -274,7 +280,7 @@ $$
 > [!CAUTION]
 > 警告信息
 
-```
+```markdown
 > [!NOTE/(･ρ･)ﾉ]
 > 自定义标题文字
 ```
@@ -282,7 +288,7 @@ $$
 > [!NOTE/(･ρ･)ﾉ]
 > 自定义标题文字
 
-## 表格
+### 增强表格
 
 ```
 | 左对齐     | 居中 | 右对齐 |    居中    |
@@ -298,14 +304,48 @@ $$
 | 普通单元格 | 2×2 单元格 |        | ^          |
 | 普通单元格 |     ^      |        | 普通单元格 |
 
-## Emoji
+### Emoji
 
 ::github{repo="remarkjs/remark-gemoji"}
 
-```
+```markdown
 :wink: :cry: :laughing: :yum:
 ```
 
 :wink: :cry: :laughing: :yum:
 
 [Emoji 速查表](https://github.com/ikatyang/emoji-cheat-sheet?tab=readme-ov-file#table-of-contents)
+
+### 视频播放器
+
+```markdown
+::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4}
+```
+
+::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4"}
+
+```markdown
+::bilibili{url="https://www.bilibili.com/video/BV1os411q7pf"}
+```
+
+::bilibili{url="https://www.bilibili.com/video/BV1os411q7pf"}
+
+### 音乐播放器
+
+```markdown
+::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
+```
+
+::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
+
+```markdown
+::spotify{url="https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv"}
+```
+
+::spotify{url="https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv"}
+
+```markdown
+::spotify{url="https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"}
+```
+
+::spotify{url="https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"}
