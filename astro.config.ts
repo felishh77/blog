@@ -33,6 +33,7 @@ import rehypeSlug from "rehype-slug";
 
 import spoiler from "./src/utils/remark/spoiler";
 import abbr from "./src/utils/remark/abbr";
+import attr from "./src/utils/remark/attr";
 import wrapper from "./src/utils/remark/table-wrapper";
 import copy from "./src/utils/code-copy";
 import reading from "./src/utils/remark/reading";
@@ -68,6 +69,7 @@ export default defineConfig({
 			ins,
 			mark,
 			spoiler,
+			attr,
 			CJK,
 			[CJKStrikethrough, { singleTilde: false }],
 			math,

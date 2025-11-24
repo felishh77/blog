@@ -213,6 +213,9 @@ importers:
       '@types/ms':
         specifier: ^2.1.0
         version: 2.1.0
+      '@types/unist':
+        specifier: ^3.0.3
+        version: 3.0.3
       '@unocss/reset':
         specifier: ^66.5.4
         version: 66.5.4

@@ -114,6 +114,7 @@
 		"@types/luxon": "^3.7.1",
 		"@types/mdast": "^4.0.4",
 		"@types/ms": "^2.1.0",
+		"@types/unist": "^3.0.3",
 		"@unocss/reset": "^66.5.4",
 		"cz-conventional-changelog": "^3.3.0",
 		"drizzle-kit": "^0.31.6",

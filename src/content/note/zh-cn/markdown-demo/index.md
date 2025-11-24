@@ -6,6 +6,37 @@ description: 展示本站所用到的Markdown特性以及渲染效果
 draft: false
 ---
 
+<style>
+.red {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.big {
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+.colorful {
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 3s linear infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+</style>
+
 ## Markdown基础语法
 
 Markdown 是一种轻量级且易于使用的语法，用于为您的写作设计风格。
@@ -244,17 +275,17 @@ $$
 
 ```markdown
 > [!NOTE]
-> 常规信息
+> 普通信息
 ```
 
 > [!NOTE]
-> 常规信息
+> 普通信息
 
 提示信息可以多层嵌套
 
 ```markdown
 > [!TIP]
-> 可选信息
+> 提示信息
 >
 > > [!IMPORTANT]
 > > 重要信息
@@ -267,7 +298,7 @@ $$
 ```
 
 > [!TIP]
-> 可选信息
+> 提示信息
 >
 > > [!IMPORTANT]
 > > 重要信息
@@ -324,15 +355,42 @@ $$
 
 [Emoji 速查表](https://github.com/ikatyang/emoji-cheat-sheet?tab=readme-ov-file#table-of-contents)
 
+### 内联元素属性扩展
+
+```markdown
+![The Wall](https://www.helloimg.com/i/2025/11/24/69246b46b2859.png){width=300}
+```
+
+![The Wall](https://www.helloimg.com/i/2025/11/24/69246b46b2859.png){width=300}
+
+```markdown
+**重要**{.colorful}内容
+```
+
+**重要**{.colorful}内容
+
+```markdown
+_多个_{.red .big}类名
+```
+
+_多个_{.red .big}类名
+
+```markdown
+**自定义属性**{key="This is a value"}
+```
+
+**自定义属性**{key="This is a value"}
+
 ### 视频播放器
 
 #### Youtube
 
 ```markdown
-::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4}[^2]
+::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4}
 ```
 
 ::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4"}
+[^2]
 
 #### Bilibili
 
@@ -347,10 +405,11 @@ $$
 #### Spotify
 
 ```markdown
-::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}[^2]
+::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
 ```
 
 ::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
+[^2]
 
 ```markdown
 ::spotify{url="https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv"}
