@@ -58,9 +58,9 @@ class TextScramble {
 const phrases = [
 	"Hello?",
 	"Is there anybody in there?",
-	"Just nod if you can hear me",
+	"Just nod if you can hear me.",
 	"Is there anyone home?",
-	"Come on, now",
+	"Come on, now.",
 	"I hear you're feeling down.",
 	"Well I can ease your pain,",
 	"Get you on your feet again.",
@@ -82,12 +82,12 @@ onMount(() => {
 		const phrase = phrases[counter];
 		fx.setText(phrase).then(() => {
 			// 根据 phrase 长度计算延迟：每个字符 80ms，最小 500ms，最大 3000ms
-			let delay = Math.min(Math.max(phrase.length * 100, 800), 4000);
+			let delay = Math.min(Math.max(phrase.length * 150, 2000), 5000);
 			if (phrase === "Is there anybody home?" || phrase === "Hello.") {
-				delay = 7500; // 例如 5 秒
+				delay = 7500;
 			}
 			if (phrase === "fqwefeqwgrgw" || phrase === "dwdewfrrg" || phrase === "poktr") {
-				delay = 300; // 例如 5 秒
+				delay = 30;
 			}
 			setTimeout(next, delay);
 		});
@@ -122,8 +122,11 @@ onMount(() => {
 	.text {
 		font-family: var(--font-monospace);
 		font-weight: 400;
-		font-size: 28px;
+		font-size: 2.5rem;
 		color: var(--primary-color);
+		@media screen and (max-width: 640px) {
+			font-size: 1.5rem;
+		}
 	}
 
 	:global(.dud) {

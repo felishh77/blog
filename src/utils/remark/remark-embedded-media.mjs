@@ -5,32 +5,6 @@ import { visit } from "unist-util-visit";
  * Supports: link cards, Spotify, YouTube, Bilibili, X posts, and GitHub repository cards
  */
 const embedHandlers = {
-	/* 	// Link Card
-	link: node => {
-		const url = node.attributes?.url;
-		if (!url) {
-			return false;
-		}
-
-		// Create the LinkCard HTML structure - all metadata will be fetched by JavaScript
-		return `
-      <div class="link-card-wrapper">
-        <a href="${url}" class="link-card" target="_blank" rel="noopener noreferrer" data-url="${url}">
-          <div class="link-card-content">
-            <div class="link-card-url"></div>
-            <p class="link-card-title" style="display: none;"></p>
-            <p class="link-card-description" style="display: none;"></p>
-          </div>
-          <div class="link-card-image-outer">
-            <div class="link-card-image" style="display: none;">
-              <img src="" alt="" loading="lazy" />
-            </div>
-          </div>
-        </a>
-      </div>
-    `;
-	},
- */
 	// Spotify
 	spotify: node => {
 		const url = node.attributes?.url ?? "";
@@ -123,26 +97,7 @@ const embedHandlers = {
       ></iframe>
     `;
 	},
-	/* 
-	// X Post Card
-	x: node => {
-		const xUrl = node.attributes?.url ?? "";
-		if (!xUrl) {
-			return false;
-		}
 
-		const twitterUrl = xUrl.replace(/(\w+:\/\/)?x\.com\//g, "$1twitter.com/");
-		const uniqueId = `x-card-${Math.random().toString(36).slice(2, 11)}`;
-
-		return `
-    <figure class="x-card">
-      <blockquote class="twitter-tweet" data-dnt="true" id="${uniqueId}">
-        <a href="${twitterUrl}"></a>
-      </blockquote>
-    </figure>
-    `;
-	},
- */
 	github: node => {
 		const repo = node.attributes?.repo ?? "";
 		if (!repo || !repo.includes("/")) {

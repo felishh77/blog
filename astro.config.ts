@@ -81,8 +81,8 @@ export default defineConfig({
 			[alerts, { legacyTitle: true }],
 			reading,
 			remarkGithubAdmonitionsToDirectives,
-			parseDirectiveNode,
-			remarkEmbeddedMedia
+			remarkEmbeddedMedia,
+			parseDirectiveNode
 		],
 		remarkRehype: {
 			footnoteLabel: null,

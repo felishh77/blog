@@ -157,38 +157,38 @@ $$
 普通无序列表
 
 ```markdown
-- 1
-    - 1.1
-    - 1.2
-- 2
-- 3
+- 迷幻摇滚
+- 朋克
+- 金属
+    - 重金属
+    - 死亡金属
 ```
 
 预览：
 
-- 1
-    - 1.1
-    - 1.2
-- 2
-- 3
+- 迷幻摇滚
+- 朋克
+- 金属
+    - 重金属
+    - 死亡金属
 
 普通有序列表
 
 ```markdown
-1. GPT
-    1. GPT-4
-    2. GPT-5
-2. Claude Opus
-3. LLaMa
+1. The Dark Side of the Moon
+    1. Time
+    2. Money
+2. The Wall
+3. Wish You Were Here
 ```
 
 预览：
 
-1. GPT
-    1. GPT-4
-    2. GPT-5
-2. Claude Opus
-3. LLaMa
+1. The Dark Side of the Moon
+    1. Time
+    2. Money
+2. The Wall
+3. Wish You Were Here
 
 列表里可以继续嵌套语法
 
@@ -225,12 +225,14 @@ $$
 ### 引用
 
 ```markdown
-> 枪响，雷鸣，剑起。繁花血景。
+> No one told you when to run
+> You missed the starting gun.
 ```
 
 预览：
 
-> 枪响，雷鸣，剑起。繁花血景。
+> No one told you when to run
+> You missed the starting gun.
 
 引用里也可以继续嵌套语法。
 
@@ -248,37 +250,35 @@ $$
 > [!NOTE]
 > 常规信息
 
+提示信息可以多层嵌套
+
 ```markdown
 > [!TIP]
 > 可选信息
+>
+> > [!IMPORTANT]
+> > 重要信息
+> >
+> > > [!WARNING]
+> > > 风险信息
+> > >
+> > > > [!CAUTION]
+> > > > 警告信息
 ```
 
 > [!TIP]
 > 可选信息
+>
+> > [!IMPORTANT]
+> > 重要信息
+> >
+> > > [!WARNING]
+> > > 风险信息
+> > >
+> > > > [!CAUTION]
+> > > > 警告信息
 
-```markdown
-> [!IMPORTANT]
-> 重要信息
-```
-
-> [!IMPORTANT]
-> 重要信息
-
-```markdown
-> [!WARNING]
-> 风险信息
-```
-
-> [!WARNING]
-> 风险信息
-
-```markdown
-> [!CAUTION]
-> 警告信息
-```
-
-> [!CAUTION]
-> 警告信息
+也可以自定义标题
 
 ```markdown
 > [!NOTE/(･ρ･)ﾉ]
@@ -287,6 +287,14 @@ $$
 
 > [!NOTE/(･ρ･)ﾉ]
 > 自定义标题文字
+
+### GitHub Card
+
+```markdown
+::github{repo="felishh77/blog"}
+```
+
+::github{repo="felishh77/blog"}
 
 ### 增强表格
 
@@ -318,10 +326,10 @@ $$
 
 ### 视频播放器
 
-#### Youtube[^2]
+#### Youtube
 
 ```markdown
-::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4}
+::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4}[^2]
 ```
 
 ::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4"}
@@ -336,10 +344,10 @@ $$
 
 ### 音乐播放器
 
-#### Spotify[^2]
+#### Spotify
 
 ```markdown
-::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
+::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}[^2]
 ```
 
 ::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
