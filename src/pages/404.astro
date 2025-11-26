@@ -9,5 +9,17 @@ import Base from "$layouts/Base.astro";
 			<span class="text-2xl">Not Found</span>
 		</div>
 		<a href="/" class="text-lg text-center link">&gt; Back</a>
+		<script is:inline src="https://storage.ko-fi.com/cdn/scripts/overlay-widget.js"></script>
+		<script is:inline>
+			const root = document.documentElement;
+			let primaryColor = getComputedStyle(root).getPropertyValue("--primary-color").trim();
+			let bgColor = getComputedStyle(root).getPropertyValue("--block-color").trim();
+			kofiWidgetOverlay.draw("feli77", {
+				type: "floating-chat",
+				"floating-chat.donateButton.text": "Support Me",
+				"floating-chat.donateButton.background-color": bgColor,
+				"floating-chat.donateButton.text-color": primaryColor
+			});
+		</script>
 	</main>
 </Base>

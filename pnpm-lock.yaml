@@ -17,6 +17,9 @@ importers:
       '@astrojs/mdx':
         specifier: ^4.3.10
         version: 4.3.10(astro@5.15.5(@types/node@24.0.3)(jiti@2.6.1)(less@4.4.2)(rollup@2.79.2)(terser@5.43.1)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
+      '@astrojs/partytown':
+        specifier: ^2.1.4
+        version: 2.1.4
       '@astrojs/sitemap':
         specifier: ^3.6.0
         version: 3.6.0
@@ -314,6 +317,9 @@ packages:
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0}
     peerDependencies:
       astro: ^5.0.0
+
+  '@astrojs/partytown@2.1.4':
+    resolution: {integrity: sha512-loUrAu0cGYFDC6dHVRiomdsBJ41VjDYXPA+B3Br51V5hENFgDSOLju86OIj1TvBACcsB22UQV7BlppODDG5gig==}
 
   '@astrojs/prism@3.3.0':
     resolution: {integrity: sha512-q8VwfU/fDZNoDOf+r7jUnMC2//H2l0TuQ6FkGJL8vD8nw/q5KiL3DS1KKBI3QhI9UQhpJ5dc7AtqfbXWuOgLCQ==}
@@ -1892,6 +1898,11 @@ packages:
   '@quansync/fs@0.1.5':
     resolution: {integrity: sha512-lNS9hL2aS2NZgNW7BBj+6EBl4rOf8l+tQ0eRY6JWCI8jI2kc53gSoqbjojU0OnAWhzoXiOjFyGsHcDGePB3lhA==}
 
+  '@qwik.dev/partytown@0.11.2':
+    resolution: {integrity: sha512-795y49CqBiKiwKAD+QBZlzlqEK275hVcazZ7wBPSfgC23L+vWuA7PJmMpgxojOucZHzYi5rAAQ+IP1I3BKVZxw==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
   '@rollup/plugin-alias@3.1.9':
     resolution: {integrity: sha512-QI5fsEvm9bDzt32k39wpOwZhVzRcL5ydcffUHMyLVaVaLeC70I8TJZ17F1z1eMoLu4E/UOcH9BWVkKpIKdrfiw==}
     engines: {node: '>=8.0.0'}
@@ -3088,6 +3099,10 @@ packages:
 
   domutils@3.2.2:
     resolution: {integrity: sha512-6kZKyUajlDuqlHKVX1w7gyslj9MPIXzIFiz/rGu35uC1wMi+kMhQwGhl4lt9unC9Vb9INnY9Z3/ZA3+FhASLaw==}
+
+  dotenv@16.6.1:
+    resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
+    engines: {node: '>=12'}
 
   dotenv@17.2.3:
     resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
@@ -6678,6 +6693,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@astrojs/partytown@2.1.4':
+    dependencies:
+      '@qwik.dev/partytown': 0.11.2
+      mrmime: 2.0.1
+
   '@astrojs/prism@3.3.0':
     dependencies:
       prismjs: 1.30.0
@@ -8221,6 +8241,10 @@ snapshots:
     dependencies:
       quansync: 0.2.11
 
+  '@qwik.dev/partytown@0.11.2':
+    dependencies:
+      dotenv: 16.6.1
+
   '@rollup/plugin-alias@3.1.9(rollup@2.79.2)':
     dependencies:
       rollup: 2.79.2
@@ -9696,6 +9720,8 @@ snapshots:
       dom-serializer: 2.0.0
       domelementtype: 2.3.0
       domhandler: 5.0.3
+
+  dotenv@16.6.1: {}
 
   dotenv@17.2.3: {}
 

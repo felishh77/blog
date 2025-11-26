@@ -43,102 +43,97 @@ import parseDirectiveNode from "./src/utils/remark/directive.mjs";
 import siteConfig from "./site.config";
 import remarkEmbeddedMedia from "./src/utils/remark/remark-embedded-media.mjs";
 
+import partytown from "@astrojs/partytown";
+
 // https://astro.build/config
 export default defineConfig({
-	adapter: cloudflare({
-		platformProxy: {
-			enabled: true
-		},
-		imageService: "compile"
-	}),
-	site: "https://feli77.com",
-	trailingSlash: "never",
-	i18n: {
-		...siteConfig.i18n,
-		routing: {
-			redirectToDefaultLocale: false,
-			prefixDefaultLocale: false
-		}
-	},
-	image: {
-		service: passthroughImageService()
-	},
-	markdown: {
-		remarkPlugins: [
-			[GFM, { singleTilde: false }],
-			ins,
-			mark,
-			spoiler,
-			attr,
-			CJK,
-			[CJKStrikethrough, { singleTilde: false }],
-			math,
-			gemoji,
-			footnote,
-			abbr,
-			[table, { colspanWithEmpty: true }],
-			wrapper,
-			directive,
-			ruby,
-			[alerts, { legacyTitle: true }],
-			reading,
-			remarkGithubAdmonitionsToDirectives,
-			remarkEmbeddedMedia,
-			parseDirectiveNode
-		],
-		remarkRehype: {
-			footnoteLabel: null,
-			footnoteLabelTagName: "p",
-			footnoteLabelProperties: {
-				className: ["hidden"]
-			},
-			handlers: {
-				...tableHandler
-			}
-		},
-		rehypePlugins: [
-			ids,
-			[anchor, { behavior: "wrap" }],
-			[links, { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] }],
-			katex,
-			figure,
-			sectionize,
-			rehypeSlug
-		],
-		smartypants: false,
-		shikiConfig: {
-			themes: {
-				light: "material-theme-lighter",
-				dark: "material-theme-darker"
-			},
-			transformers: [
-				copy({
-					duration: 1500
-				})
-			]
-		}
-	},
-	vite: {
-		// Workaround for https://github.com/withastro/astro/issues/14692
-		optimizeDeps: {
-			include: ["picocolors"]
-		},
-		// @ts-expect-error
-		plugins: [yaml()]
-	},
-	integrations: [
-		svelte(),
-		mdx(),
-		sitemap(),
-		swup({
-			globalInstance: true,
-			preload: false,
-			smoothScrolling: false,
-			progress: true
-		}),
-		UnoCSS({
-			injectReset: "@unocss/reset/normalize.css"
-		}),
-		icon()
-	]
+    adapter: cloudflare({
+        platformProxy: {
+            enabled: true
+        },
+        imageService: "compile"
+    }),
+    site: "https://feli77.com",
+    trailingSlash: "never",
+    i18n: {
+        ...siteConfig.i18n,
+        routing: {
+            redirectToDefaultLocale: false,
+            prefixDefaultLocale: false
+        }
+    },
+    image: {
+        service: passthroughImageService()
+    },
+    markdown: {
+        remarkPlugins: [
+            [GFM, { singleTilde: false }],
+            ins,
+            mark,
+            spoiler,
+            attr,
+            CJK,
+            [CJKStrikethrough, { singleTilde: false }],
+            math,
+            gemoji,
+            footnote,
+            abbr,
+            [table, { colspanWithEmpty: true }],
+            wrapper,
+            directive,
+            ruby,
+            [alerts, { legacyTitle: true }],
+            reading,
+            remarkGithubAdmonitionsToDirectives,
+            remarkEmbeddedMedia,
+            parseDirectiveNode
+        ],
+        remarkRehype: {
+            footnoteLabel: null,
+            footnoteLabelTagName: "p",
+            footnoteLabelProperties: {
+                className: ["hidden"]
+            },
+            handlers: {
+                ...tableHandler
+            }
+        },
+        rehypePlugins: [
+            ids,
+            [anchor, { behavior: "wrap" }],
+            [links, { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] }],
+            katex,
+            figure,
+            sectionize,
+            rehypeSlug
+        ],
+        smartypants: false,
+        shikiConfig: {
+            themes: {
+                light: "material-theme-lighter",
+                dark: "material-theme-darker"
+            },
+            transformers: [
+                copy({
+                    duration: 1500
+                })
+            ]
+        }
+    },
+    vite: {
+        // Workaround for https://github.com/withastro/astro/issues/14692
+        optimizeDeps: {
+            include: ["picocolors"]
+        },
+        // @ts-expect-error
+        plugins: [yaml()]
+    },
+    integrations: [svelte(), mdx(), sitemap(), swup({
+        globalInstance: true,
+        preload: false,
+        smoothScrolling: false,
+        progress: true
+		}), UnoCSS({
+        injectReset: "@unocss/reset/normalize.css"
+		}), icon(), partytown()]
 });
