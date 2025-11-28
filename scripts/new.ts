@@ -239,10 +239,6 @@ ${content}
 	});
 
 	// Open file in VS Code if confirmed
-	if (!isCancel(openInNvim) && openInNvim) {
-		const { exec } = await import("node:child_process");
-		exec(`nvim "${path}"`, error => error && log.error(`${t("new.open.error")}: ${error.message}`));
-	}
 
 	outro(`🎉 ${t("new.done")}`);
 })().catch(error => {
