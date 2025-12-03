@@ -33,3 +33,6 @@ wrangler.toml
 
 # jetbrains setting folder
 .idea/
+
+# obsidian vault files
+content/.obsidian/
