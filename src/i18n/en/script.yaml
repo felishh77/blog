@@ -16,8 +16,8 @@ new:
         description: In-depth, carefully conceived long-form works
         name: Note
     open:
-        error: Failed to open Neovim
-        message: Do you want to open this file with Neovim?
+        error: Failed to open VS Code
+        message: Do you want to open this file with VS Code?
     preface:
         description: Life updates, site announcements or creative philosophy
         name: Preface

@@ -35,4 +35,4 @@ wrangler.toml
 .idea/
 
 # obsidian vault files
-content/.obsidian/
+src/content/.obsidian/

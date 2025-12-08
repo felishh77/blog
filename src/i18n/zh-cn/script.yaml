@@ -16,8 +16,8 @@ new:
         description: 具有深度，经过深思熟虑的长篇作品
         name: 文记
     open:
-        error: 无法打开 Neovim
-        message: 使用 Neovim 打开此文件？
+        error: 无法打开 VS Code
+        message: 使用 VS Code 打开此文件？
     preface:
         description: 生活近况、网站公告或创作理念
         name: 序文
