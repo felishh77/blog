@@ -16,8 +16,8 @@ new:
         description: 深く考え抜かれた長編作品
         name: 文記
     open:
-        error: VS Code を開けませんでした
-        message: このファイルを VS Code で開きますか?
+        error: Ghostwriter を開けませんでした
+        message: このファイルを Ghostwriter で開きますか?
     preface:
         description: 現在の生活状況、ウェブサイトでのお知らせやクリエイティブなアイデア
         name: 序文
