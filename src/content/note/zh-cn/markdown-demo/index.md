@@ -151,7 +151,7 @@ $$
 
 当前使用 KaTeX 作为数学公式插件，支持的语法请参考 [KaTeX Supported Functions](https://katex.org/docs/supported.html)。
 
-::github{repo="remarkjs/remark-math"}
+
 
 ### 图片
 
@@ -245,7 +245,7 @@ $$
 
 然后在文档的结尾，添加注释的内容（会默认于文章结尾渲染之）。
 
-[^1]:这里是注释的内容
+[^1]: 这里是注释的内容
 
 ### To-Do 列表
 
@@ -278,7 +278,6 @@ You missed the starting gun.
 
 ### GitHub Alert
 
-::github{repo="jaywcjlove/remark-github-blockquote-alert"}
 
 ```markdown
 > [!NOTE]
@@ -332,14 +331,6 @@ You missed the starting gun.
   
 自定义标题文字
 
-### GitHub Card
-
-```markdown
-::github{repo="felishh77/blog"}
-```
-
-::github{repo="felishh77/blog"}
-
 ### 增强表格
 
 ````
@@ -357,8 +348,6 @@ You missed the starting gun.
 | 普通单元格 |     ^      |        | 普通单元格 |
 
 ### Emoji
-
-::github{repo="remarkjs/remark-gemoji"}
 
 ```markdown
 :wink: :cry: :laughing: :yum:
@@ -395,49 +384,3 @@ _多个_{.red .big}类名
 ```
 
 **自定义属性**{key="This is a value"}
-
-### 视频播放器
-
-#### Youtube
-
-```markdown
-::youtube{url="https://www.youtube.com/watch?v=84Tq-eAJIk4}
-```
-
-::youtube{url="[https://www.youtube.com/watch?v=84Tq-eAJIk4"}](https://www.youtube.com/watch?v=84Tq-eAJIk4%22%7D)
-  
-[^2]
-
-#### Bilibili
-
-```markdown
-::bilibili{url="https://www.bilibili.com/video/BV1os411q7pf"}
-```
-
-::bilibili{url="[https://www.bilibili.com/video/BV1os411q7pf"}](https://www.bilibili.com/video/BV1os411q7pf%22%7D)
-
-### 音乐播放器
-
-#### Spotify
-
-```markdown
-::spotify{url="https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}
-```
-
-::spotify{url="[https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz"}](https://open.spotify.com/track/3TO7bbrUKrOSPGRTB5MeCz%22%7D)
-  
-[^2]
-
-```markdown
-::spotify{url="https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv"}
-```
-
-::spotify{url="[https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv"}](https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv%22%7D)
-
-```markdown
-::spotify{url="https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"}
-```
-
-::spotify{url="[https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9"}](https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9%22%7D)
-
-[^2]:查看需要外网连接
