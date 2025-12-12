@@ -1,6 +1,7 @@
 {
-	"name": "felixblog",
+	"name": "astro-theme-thought-lite",
 	"type": "module",
+	"private": true,
 	"version": "0.30.9",
 	"description": "A modern Astro theme focused on content creation",
 	"keywords": [
