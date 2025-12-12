@@ -3,10 +3,10 @@ name: Deployment
 on:
   push:
     branches:
-      - cloudflare
+      - master
   pull_request:
     branches:
-      - cloudflare
+      - master
   workflow_dispatch:
 
 jobs:
