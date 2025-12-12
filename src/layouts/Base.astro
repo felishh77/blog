@@ -1,0 +1,56 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import config from "$config";
+import App from "$layouts/App.astro";
+import Navigator from "$layouts/header/Navigator.svelte";
+import Footer from "$layouts/Footer.astro";
+import Tip from "$components/Tip.svelte";
+import "$styles/tailwind.css";
+import "$styles/global.css";
+import "$styles/markdown.css";
+import "medium-zoom/dist/style.css";
+
+let route = Astro.url.pathname;
+
+const { locale = config.i18n.defaultLocale, title: subtitle, description = config.description, article } = Astro.props;
+const title = config.title;
+---
+
+<script>
+	import zoom from "medium-zoom/dist/pure";
+	import Time from "$utils/time";
+
+	// Set the `title` attribute of all `<time>` elements to localized date-time strings
+	const localizeTimes = () => document.querySelectorAll("time").forEach(time => time.dateTime && (time.title = Time.locale(time.dateTime, navigator.language, Time.userTimezone)));
+
+	// Add zoom effect to images within markdown content
+	window.zoom = () => zoom(".markdown img:not([data-nozoom])", { background: "#00000044" });
+
+	// Page initialization function
+	function initialize() {
+		localizeTimes();
+		window.zoom();
+	}
+
+	// Execute initialization on first load
+	initialize();
+
+	// Listen for page load event and re-initialize on page transitions
+	document.addEventListener("astro:page-load", initialize);
+</script>
+
+<App {title} {subtitle} {description} {article} author={config.author.name}>
+	<Tip client:load />
+	<div class="flex flex-col mx-auto px-3 w-[min(100%,1000px)]">
+		<div id="body" class="flex flex-col min-h-screen">
+			<header class="sticky top-0 flex items-center justify-between pt-3 pb-1 mb-4 bg-background z-4 sm:static sm:pb-12">
+				<a href={getRelativeLocaleUrl(locale)} class="text-lg sm:text-2xl font-bold">{title}</a>
+				<Navigator {locale} {route} client:load />
+			</header>
+
+			<slot />
+		</div>
+
+		<Footer {locale} author={config.author} copyright={config.copyright} />
+	</div>
+</App>
