@@ -7,7 +7,7 @@ import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import swup from "@swup/astro";
-import githubLight from "shiki/themes/github-light.mjs";
+// import githubLight from "shiki/themes/github-light.mjs";
 
 import GFM from "remark-gfm";
 import ins from "remark-ins";
@@ -34,6 +34,11 @@ import wrapper from "./src/utils/remark/table-wrapper";
 import copy from "./src/utils/code-copy";
 import reading from "./src/utils/remark/reading";
 import figure from "./src/utils/remark/figure";
+
+import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
+import rehypeSlug from "rehype-slug";
+import remarkEmbeddedMedia from "./src/utils/remark/remark-embedded-media.mjs";
+import parseDirectiveNode from "./src/utils/remark/directive.mjs";
 
 import siteConfig from "./site.config";
 
@@ -72,7 +77,10 @@ export default defineConfig({
 			directive,
 			ruby,
 			[alerts, { legacyTitle: true }],
-			reading
+			reading,
+			remarkGithubAdmonitionsToDirectives,
+			remarkEmbeddedMedia,
+			parseDirectiveNode
 		],
 		remarkRehype: {
 			footnoteLabel: null,
@@ -90,18 +98,14 @@ export default defineConfig({
 			[links, { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] }],
 			katex,
 			figure,
-			sectionize
+			sectionize,
+			rehypeSlug
 		],
 		smartypants: false,
 		shikiConfig: {
 			themes: {
-				light: {
-					...githubLight,
-					colorReplacements: {
-						"#fff": "var(--block-color)"
-					}
-				},
-				dark: "dark-plus"
+				light: "material-theme-lighter",
+				dark: "material-theme-darker"
 			},
 			transformers: [
 				copy({
