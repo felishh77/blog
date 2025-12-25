@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.31.2](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.31.1...v0.31.2) (2025-12-23)
+
+
+### Styles
+
+* bold active language link in menu ([b26702d](https://github.com/tuyuritio/astro-theme-thought-lite/commit/b26702df094913a40c882493f6b047e1416c833f))
+
+## [0.31.1](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.31.0...v0.31.1) (2025-12-23)
+
+
+### Bug Fixes
+
+* regenerate pnpm-lock to resolve CI git URL error ([2fb4a1c](https://github.com/tuyuritio/astro-theme-thought-lite/commit/2fb4a1c94739924afa15aa8bea3768ef2811aa0e))
+
+## [0.31.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.30.11...v0.31.0) (2025-12-23)
+
+
+### Features
+
+* use fonts api to load fonts ([9d842e5](https://github.com/tuyuritio/astro-theme-thought-lite/commit/9d842e56da2fea91de57ed6db1266da501c27bfe))
+
+
+### Bug Fixes
+
+* add fallback declaration for api fonts ([099cabf](https://github.com/tuyuritio/astro-theme-thought-lite/commit/099cabf71e32672a04c7fbfc2f6a272616ec9cba))
+* **i18n:** enhance language switcher for current locale ([8af9392](https://github.com/tuyuritio/astro-theme-thought-lite/commit/8af939242ef5638162fa54d87336ac028c433e83))
+* remove font-display handling ([60ea657](https://github.com/tuyuritio/astro-theme-thought-lite/commit/60ea6572d533a2d6e6581fc8690121c145497bc0))
+
+## [0.30.11](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.30.10...v0.30.11) (2025-12-15)
+
+
+### Bug Fixes
+
+* **feed:** use absolute path for stylesheet reference ([cccde9c](https://github.com/tuyuritio/astro-theme-thought-lite/commit/cccde9cdcd54745128588fb1c92097b181555e30))
+
 ## [0.30.10](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.30.9...v0.30.10) (2025-12-13)
 
 
