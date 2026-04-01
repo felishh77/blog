@@ -16,14 +16,14 @@
 
 :root,
 [data-theme="light"] {
-	--primary-color: #2a2a28;
-	--secondary-color: #50504d;
-	--remark-color: #757575;
-	--weak-color: #9f9f9c;
-	--background-color: #fffffd;
-	--block-color: #eeeeee;
-	--shadow-color: #cdcdcc;
-	--selection-color: #adadacc3;
+	--primary-color: #4c4f69;
+	--secondary-color: #5c5f77;
+	--remark-color: #7287fd;
+	--weak-color: #6c6f85;
+	--background-color: #eff1f5;
+	--block-color: #ccd0da;
+	--shadow-color: #bcc0cc;
+	--selection-color: #dc8a78;
 
 	--swup-fade-theme-duration: 0.15s;
 
@@ -34,14 +34,14 @@
 }
 
 [data-theme="dark"] {
-	--primary-color: #dddddb;
-	--secondary-color: #aaaaa8;
-	--remark-color: #a5a5a5;
-	--weak-color: #5d5d5a;
-	--background-color: #0e0e0c;
-	--block-color: #1e1e1e;
-	--shadow-color: #323231;
-	--selection-color: #adadacc3;
+	--primary-color: #cdd6f4;
+	--secondary-color: #b4befe;
+	--remark-color: #b4befe;
+	--weak-color: #a6adc8;
+	--background-color: #1e1e2e;
+	--block-color: #313244;
+	--shadow-color: #45475a;
+	--selection-color: #585b70;
 
 	.astro-code,
 	.astro-code span {

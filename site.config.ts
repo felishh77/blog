@@ -4,7 +4,7 @@ import siteConfig, { providers } from "./src/lib/config";
 const env = import.meta.env ?? {};
 
 const config = siteConfig({
-	title: "Felix's Campsite",
+	title: "Feli77's Campsite",
 	prologue: "The time is gone, the song is over\nThought I'd something more to say.",
 	author: {
 		name: "Felix",
@@ -14,7 +14,7 @@ const config = siteConfig({
 	description: "A personal space to share knowledge and thoughts.",
 	copyright: {
 		type: "CC BY-NC-ND 4.0",
-		year: "2025"
+		year: "2026"
 	},
 	timezone: "UTC",
 	i18n: {
