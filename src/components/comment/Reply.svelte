@@ -1,52 +1,43 @@
 <script lang="ts">
 import { ActionError, actions } from "astro:actions";
-import { slide } from "svelte/transition";
 import { onMount, untrack } from "svelte";
-import remark from "$utils/remark";
+import { slide } from "svelte/transition";
+import { Turnstile } from "svelte-turnstile";
+import remark from "$lib/remark";
 import Icon from "$components/Icon.svelte";
 import Modal from "$components/Modal.svelte";
 import { pushTip } from "$components/Tip.svelte";
 import config from "$config";
 import i18nit from "$i18n";
 import Drifter from "./Drifter.svelte";
+import context, { countdownComment } from "./context.svelte";
 
 let {
-	locale,
-	link,
-	oauth,
-	turnstile,
-	drifter,
 	section,
 	item,
+	link,
+	refresh,
 	reply,
 	edit,
 	text,
-	refresh,
-	view = $bindable(),
-	limit = $bindable(0)
+	view = $bindable()
 }: {
-	locale: string;
-	link: string;
-	oauth: any;
-	turnstile?: string;
-	drifter?: any;
 	section: string;
 	item: string;
-	reply?: string;
+	link: string;
+	refresh: (auto?: boolean) => Promise<void>;
+	reply?: string | null;
 	edit?: string;
-	text?: string;
-	refresh: any;
+	text?: string | null;
 	view?: boolean;
-	limit?: number;
 } = $props();
 
-const t = i18nit(locale);
+const t = i18nit(context.locale);
 
-/** Determine authentication status */
-const authenticated: boolean = Boolean(oauth.length && drifter);
+let limit = $derived(context.limitComment);
 
 /** Comment input is enabled only when it's authenticated or Turnstile is configured */
-const enabled: boolean = Boolean(turnstile || authenticated);
+const enabled: boolean = Boolean(context.turnstile || context.drifter);
 
 let reachView: boolean = $state(false); // OAuth signin view state
 let profileView: boolean = $state(false); // User profile view state
@@ -54,8 +45,7 @@ let content: string = $state(""); // Comment content, will be initialized in onM
 let preview: boolean = $state(false); // Toggle between edit and preview mode
 let nickname: string | null = $state(null); // Nickname for unauthenticated users
 let captcha: string | undefined = $state(); // Captcha token for unauthenticated users
-let turnstileElement: HTMLElement | undefined = $state(); // Element to render Turnstile widget
-let turnstileID: string | undefined = $state(); // ID of the rendered Turnstile widget
+let resetTurnstile: (() => void) | undefined = $state(); // Function to reset Turnstile widget
 let overlength: boolean = $derived(content.length > Number(config.comment?.["max-length"])); // Content length check
 
 // Generate storage key
@@ -139,16 +129,25 @@ async function submit() {
 	if (!content.trim()) return pushTip("warning", t("comment.empty"));
 
 	let error: ActionError | undefined;
-	if (!authenticated) {
+	if (!context.drifter) {
 		// For unauthenticated users, validate captcha and nickname
 		if (!captcha) return pushTip("error", t("comment.verify.failure"));
 		if (!nickname?.trim()) return pushTip("warning", t("comment.nickname.empty"));
 
-		({ error } = await actions.comment.create({ section, item, reply, content, link, nickname, captcha }));
+		({ error } = await actions.comment.create({
+			locale: context.locale,
+			section: section,
+			item: item,
+			reply,
+			content,
+			link: link,
+			push: context.subscription,
+			passer: { nickname, captcha }
+		}));
 
 		// Only reset turnstile for top-level comments (when reply is undefined) or if there was an error
 		if (!reply || error) {
-			window.turnstile.reset(turnstileID);
+			resetTurnstile?.();
 			captcha = undefined;
 		}
 
@@ -157,8 +156,16 @@ async function submit() {
 		// For authenticated users editing a comment
 		({ error } = await actions.comment.edit({ id: edit, content }));
 	} else {
-		// For authenticated users creating a new comment or reply
-		({ error } = await actions.comment.create({ section, item, reply, content, link }));
+		// For authenticated users creating a comment
+		({ error } = await actions.comment.create({
+			locale: context.locale,
+			section: section,
+			item: item,
+			reply,
+			content,
+			link: link,
+			push: context.subscription
+		}));
 	}
 
 	if (!error) {
@@ -166,9 +173,7 @@ async function submit() {
 		refresh();
 
 		// Implement rate limiting: 5-second cooldown
-		limit = 5;
-		let end = Date.now() + 1000 * limit;
-		const interval = setInterval(() => (limit = (end - Date.now()) / 1000) <= 0 && clearInterval(interval), 100);
+		countdownComment();
 
 		// Reset form state after successful submission
 		view = false;
@@ -188,11 +193,65 @@ async function submit() {
 			case "CONTENT_TOO_LARGE":
 				return pushTip("error", t("comment.overlength"));
 
-			case "FORBIDDEN":
+			case "BAD_REQUEST":
 				return pushTip("error", t("comment.verify.failure"));
 
 			default:
 				return pushTip("error", t("comment.failure"));
+		}
+	}
+}
+
+/**
+ * Toggle push subscription on/off
+ */
+async function toggleSubscription() {
+	context.subscription = undefined;
+
+	const registration = await navigator.serviceWorker.getRegistration();
+	if (!registration) return pushTip("error", t("push.enable.failure"));
+
+	let subscription = await registration.pushManager.getSubscription();
+	if (subscription) {
+		// Unsubscribe from existing push subscription
+		await subscription.unsubscribe();
+
+		// Wether unsubscription succeeded or not, clear local state
+		pushTip("success", t("push.disable.success"));
+
+		// Notify server to remove subscription
+		await actions.push.unsubscribe(subscription.endpoint);
+	} else if (context.push) {
+		// Request push notification permission before subscribing
+		const permission = await Notification.requestPermission();
+		if (permission !== "granted") return pushTip("information", t("push.denied"));
+
+		try {
+			// Create push subscription with VAPID key
+			subscription = await registration.pushManager.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: context.push
+			});
+
+			// Extract keys from subscription
+			const keys = subscription.toJSON().keys;
+
+			// Register subscription with server
+			const { data } = await actions.push.subscribe({
+				endpoint: subscription.endpoint!,
+				p256dh: keys!.p256dh,
+				auth: keys!.auth
+			});
+			if (data) {
+				context.subscription = data;
+				pushTip("success", t("push.enable.success"));
+			} else {
+				// Rollback on failure
+				await subscription.unsubscribe();
+				pushTip("error", t("push.enable.failure"));
+			}
+		} catch (error) {
+			pushTip("error", t("push.enable.failure"));
 		}
 	}
 }
@@ -211,33 +270,8 @@ onMount(() => {
 	}
 
 	// If unauthenticated, setup nickname and Turnstile
-	if (!authenticated) {
+	if (!context.drifter) {
 		nickname = localStorage.getItem("nickname");
-
-		/**
-		 * Render Turnstile widget
-		 */
-		function initTurnstile() {
-			turnstileID = window.turnstile.render(turnstileElement, {
-				sitekey: turnstile,
-				callback: (token: string) => {
-					captcha = token;
-				},
-				"expired-callback": () => {
-					captcha = undefined;
-				},
-				"error-callback": () => {
-					captcha = undefined;
-				}
-			});
-		}
-
-		// Check if turnstile is available and render immediately
-		if (window.turnstile) {
-			initTurnstile();
-		} else {
-			window.onloadTurnstileCallback = initTurnstile;
-		}
 	}
 });
 </script>
@@ -256,7 +290,7 @@ onMount(() => {
 		<hr class="border-0 border-b border-dashed w-full" />
 
 		<div class="flex flex-col items-center gap-2">
-			{#each oauth as provider}
+			{#each context.oauth as provider}
 				<a href={`/@/reach/${provider.name}`} class="flex items-center justify-center gap-2 w-full border-2 border-secondary py-1 px-2 rounded">
 					<Icon size="0.95rem" name={provider.logo} />
 					<span class="font-bold text-sm">{t("oauth.signin", { provider: provider.name })}</span>
@@ -268,12 +302,12 @@ onMount(() => {
 	</div>
 </Modal>
 
-<Drifter bind:open={profileView} {locale} {oauth} {drifter} />
+<Drifter bind:open={profileView} />
 
 <main transition:slide={{ duration: 150 }} class="relative mt-5">
 	{#if !enabled}
 		<div class="absolute flex flex-col items-center justify-center gap-1 w-full h-full font-bold cursor-not-allowed">
-			{#if !oauth.length}
+			{#if !context.oauth.length}
 				<span class="text-xl font-bold">{t("comment.disabled")}</span>
 			{:else}
 				<button onclick={() => (reachView = true)} class="border-2 py-1 px-2 rounded-sm font-bold">{t("comment.signin")}</button>
@@ -281,14 +315,15 @@ onMount(() => {
 		</div>
 	{/if}
 	<div class:pointer-events-none={!enabled} class:blur={!enabled}>
-		<fieldset disabled={!enabled} class="group relative flex flex-col focus-within:*:border-remark *:transition-[border,width,height]">
-			<span aria-hidden="true" class="absolute -z-1 top-0 start-0 w-5 h-5 border-t-2 border-s-2 border-weak group-focus-within:w-1/2 group-focus-within:h-1/2"></span>
-			<span aria-hidden="true" class="absolute -z-1 top-0 end-0 w-5 h-5 border-t-2 border-e-2 border-weak group-focus-within:w-1/2 group-focus-within:h-1/2"></span>
-			<span aria-hidden="true" class="absolute -z-1 bottom-0 start-0 w-26 h-8 border-b-2 border-s-2 border-weak group-focus-within:w-1/2 group-focus-within:h-1/2"></span>
-			<span aria-hidden="true" class="absolute -z-1 bottom-0 end-0 {authenticated ? 'w-16' : 'w-54'} h-8 border-b-2 border-e-2 border-weak group-focus-within:w-1/2 group-focus-within:h-1/2"></span>
+		<fieldset disabled={!enabled} class="group relative flex flex-col py-3 px-4 *:text-remark focus-within:*:text-primary focus-within:*:border-remark *:transition-[color,backgroud,border,width,height] *:duration-200 *:ease-out">
+			{#snippet corner(top: boolean, start: boolean)}
+				<span aria-hidden="true" class="absolute -z-1 w-2 h-2 border-shadow group-focus-within:w-1/2 group-focus-within:h-1/2" class:top-0={top} class:bottom-0={!top} class:start-0={start} class:end-0={!start} class:border-t-2={top} class:border-b-2={!top} class:border-s-2={start} class:border-e-2={!start}></span>
+			{/snippet}
 
-			<article class="flex flex-col min-h-20 py-2 px-3 overflow-auto">
-				<textarea hidden={preview} placeholder="   {t('comment.placeholder')}" bind:this={textarea} bind:value={content} class="grow w-full bg-transparent text-base outline-none resize-none transition-[height]"></textarea>
+			{@render corner(true, true)}{@render corner(true, false)}{@render corner(false, true)}{@render corner(false, false)}
+
+			<article class="flex flex-col min-h-20 mb-2 overflow-auto">
+				<textarea hidden={preview} placeholder="   {t('comment.placeholder')}" bind:this={textarea} bind:value={content} class="grow w-full bg-transparent text-base resize-none transition-[height]"></textarea>
 				{#if preview}
 					{#if content.trim()}
 						{#await remark.process(content)}
@@ -301,7 +336,7 @@ onMount(() => {
 					{/if}
 				{/if}
 			</article>
-			<section class="flex items-center gap-2 pb-2 px-3">
+			<section class="flex items-center gap-2">
 				<figure class="relative flex items-center group/pop">
 					<figcaption class="contents"><Icon name="lucide--smile" /></figcaption>
 					<ul class="absolute bottom-full -start-3 flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 mb-1 border-2 border-weak rounded-sm py-2 px-3 bg-background shadow-md pop">
@@ -311,25 +346,35 @@ onMount(() => {
 						<a href="https://github.com/ikatyang/emoji-cheat-sheet?tab=readme-ov-file#table-of-contents" target="_blank">…</a>
 					</ul>
 				</figure>
-				<label class="flex items-center cursor-pointer"><Icon name="lucide--file-search" title={t("comment.preview.name")} /><input type="checkbox" class="switch" bind:checked={preview} /></label>
+				<label class="flex items-center cursor-pointer group/icon" tabindex="-1"><Icon name="lucide--file-search" title={t("comment.preview.name")} /><input type="checkbox" class="switch" bind:checked={preview} /></label>
 				<div class="grow"></div>
 
-				<!-- When comment input is enabled, either the it's authenticated or Turnstile is configured -->
-				{#if authenticated}
+				{#if context.drifter}
 					<button onclick={() => (profileView = true)}><Icon name="lucide--user-round-pen" title={t("drifter.profile")} /></button>
 				{:else}
-					<div bind:this={turnstileElement}></div>
+					{#if context.turnstile}
+						<Turnstile siteKey={context.turnstile} bind:reset={resetTurnstile} on:expired={() => (captcha = undefined)} on:error={() => (captcha = undefined)} on:callback={({ detail }) => (captcha = detail.token)} />
+					{/if}
 					<input type="text" placeholder={t("comment.nickname.name")} bind:value={nickname} class="input border-weak w-35 text-sm" />
-					{#if oauth.length}
-						<!-- Shown only when OAuth is configured -->
+					{#if context.oauth.length}
 						<button onclick={() => (reachView = true)}><Icon name="lucide--user-round" title={t("drifter.signin")} /></button>
 					{/if}
 				{/if}
 
-				<button id="submit" disabled={limit > 0 || (!authenticated && !captcha) || overlength} onclick={submit}>
+				{#if context.push}
+					<button onclick={toggleSubscription}>
+						{#if context.subscription !== undefined}
+							<Icon name="lucide--bell" title={t("push.enable.name")} />
+						{:else}
+							<Icon name="lucide--bell-off" title={t("push.disable.name")} />
+						{/if}
+					</button>
+				{/if}
+
+				<button id="submit" disabled={limit > 0 || (!context.drifter && !captcha) || overlength} onclick={submit}>
 					{#if limit > 0}
-						<span class="flex gap-0.5"><Icon name="lucide--timer" /><span class="relative top-0.5 font-mono leading-none">{Math.ceil(limit)}</span></span>
-					{:else if !authenticated && !captcha}
+						<span class="flex gap-0.5"><Icon name="lucide--timer" /><span class="relative top-0.5 text-sm font-mono leading-none">{Math.ceil(limit)}</span></span>
+					{:else if !context.drifter && !captcha}
 						<span class="contents text-primary"><Icon name="svg-spinners--pulse-rings-3" title={t("comment.verify.progress")} /></span>
 					{:else if overlength}
 						<span class="contents text-orange-600"><Icon name="lucide--rectangle-ellipsis" title={t("comment.overlength")} /></span>

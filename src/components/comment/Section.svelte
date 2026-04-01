@@ -2,13 +2,12 @@
 import { actions } from "astro:actions";
 import { onMount } from "svelte";
 import { flip } from "svelte/animate";
-import config from "$config";
-import type { CommentItem } from "$actions/comment";
 import Icon from "$components/Icon.svelte";
 import { pushTip } from "$components/Tip.svelte";
 import i18nit from "$i18n";
-import CommentBlock from "./Comment.svelte";
+import CommentBlock, { type CommentItem } from "./Comment.svelte";
 import Reply from "./Reply.svelte";
+import context from "./context.svelte";
 
 let {
 	locale,
@@ -17,16 +16,31 @@ let {
 	item,
 	oauth,
 	turnstile,
+	push,
+	email,
 	compact = false
-}: { locale: string; link: string; section: string; item: string; oauth: any; turnstile?: string; compact?: boolean } = $props();
+}: {
+	locale: string;
+	link: string;
+	section: string;
+	item: string;
+	oauth: any;
+	turnstile?: string;
+	push?: string;
+	email: boolean;
+	compact?: boolean;
+} = $props();
+
+context.locale = locale;
+context.oauth = oauth;
+context.turnstile = turnstile;
+context.push = push;
+context.email = email;
 
 const t = i18nit(locale);
 
-// Track rate limiting state across comment operations
-let limit: number = $state(0);
 let loaded: boolean = $state(false);
 let expanded: boolean = $state(!compact);
-let drifter: any | undefined = $state();
 
 let count: number = $state(0);
 let comments: CommentItem[] = $state([]);
@@ -56,8 +70,18 @@ async function refresh(auto: boolean = true) {
 }
 
 onMount(async () => {
-	let loadComments = false;
 	let loadDrifter = false;
+	let loadComments = false;
+
+	// Initial load of user authentication status
+	const { data: drifterProfile, error: drifterError } = await actions.drifter.profile();
+	if (!drifterError) {
+		context.drifter = drifterProfile;
+
+		loadDrifter = true;
+	} else {
+		pushTip("error", t("drifter.fetch.failure"));
+	}
 
 	// Initial load of comments
 	const { data: commentList, error: commentError } = await actions.comment.list({ section, item });
@@ -70,14 +94,20 @@ onMount(async () => {
 		pushTip("error", t("comment.fetch.failure"));
 	}
 
-	// Initial load of user authentication status
-	const { data: drifterProfile, error: drifterError } = await actions.drifter.profile();
-	if (!drifterError) {
-		drifter = drifterProfile;
+	// Initial load of push subscription status
+	// Register service worker for push notifications
+	const registration = await navigator.serviceWorker.register("/sw.js");
+	const subscription = await registration.pushManager.getSubscription();
 
-		loadDrifter = true;
-	} else {
-		pushTip("error", t("drifter.fetch.failure"));
+	if (subscription) {
+		// Verify subscription is still valid on server
+		const { data } = await actions.push.check(subscription.endpoint);
+		if (data) {
+			context.subscription = data;
+		} else {
+			// Clean up invalid subscription
+			await subscription.unsubscribe();
+		}
 	}
 
 	loaded = loadComments && loadDrifter;
@@ -86,17 +116,13 @@ onMount(async () => {
 
 <main>
 	{#if (!compact || expanded) && loaded}
-		<Reply {locale} {link} {oauth} {turnstile} {section} {item} {drifter} {refresh} bind:limit />
+		<Reply {section} {item} {link} {refresh} />
 	{/if}
 
 	{#if loaded}
 		{#if compact || comments.length}
 			<div class="flex items-center justify-between mt-6">
-				<p class="flex items-center gap-2">
-					<b class="text-lg">{t("comment.name")}</b>
-					<span>·</span>
-					<span>{count}</span>
-				</p>
+				<p class="flex items-center gap-2"><b>{t("comment.name")}</b> · {count}</p>
 
 				{#if compact}
 					<button onclick={() => (expanded = !expanded)}>
@@ -122,9 +148,7 @@ onMount(async () => {
 		{/if}
 		{#each list as comment (comment.id)}
 			<div animate:flip={{ duration: 150 }}>
-				{#if !comment.deleted || comment.subcomments.length || !config.comment?.["hide-deleted"]}
-					<CommentBlock {locale} {link} {oauth} {turnstile} {drifter} {comment} {refresh} bind:limit />
-				{/if}
+				<CommentBlock {section} {item} {link} {comment} {refresh} />
 			</div>
 		{/each}
 	{:else}

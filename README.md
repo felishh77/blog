@@ -22,7 +22,7 @@
 > - `main` branch: Static build, can be deployed on any static hosting platform.
 > - `cloudflare` branch✅: Enables built-in comment system, only deployable on Cloudflare.
 
-🎬 **Live Demo**: [Cloudflare Workers](https://thought-lite.ttio.workers.dev/)
+🎬 **Live Demo**: [Cloudflare Workers](https://thought-lite.ttio.workers.dev)
 
 ## ✨ Features
 
@@ -34,6 +34,7 @@
 - [x] **OpenGraph Support** - Built-in Open Graph meta tags for optimized social media sharing.
 - [x] **Comment System** - Based on Cloudflare D1, easy deployment with privacy control; supports OAuth authentication and guest comments.
 - [x] **Desktop Notifications** - Real-time notifications using Web Push API.
+- [x] **Email Notifications** - Send email notifications using Restful API.
 
 ## 📋 Prerequisites
 
@@ -74,14 +75,14 @@ pnpm dev
 
 ## 🔧 Configuration
 
-1. Create Cloudflare D1, refer to [Cloudflare D1 Configuration Guide](src/content/note/en/cloudflare-d1.md).
-2. Configure Cloudflare Turnstile, refer to [Cloudflare Turnstile Configuration Guide](src/content/note/en/cloudflare-turnstile.md).
-    - You can skip this step if you don't enable anonymous comments.
-3. Configure OAuth authentication, refer to [OAuth Configuration Guide](src/content/note/en/oauth.md).
-4. Customize site configuration and internationalization (i18n) by modifying the following files, refer to [Site Configuration Guide](src/content/note/en/configuration.md) and [Internationalization Configuration Guide](src/content/note/en/internationalization.md):
-    - `.env`
-    - `astro.config.ts`
-    - `site.config.ts`
+Related theme configuration can be found in the following documents:
+
+- [Astro Configuration Reference](https://docs.astro.build/en/reference/configuration-reference/)
+- [Site Configuration Guide](https://thought-lite.ttio.workers.dev/note/configuration)
+- [Internationalization Configuration Guide](https://thought-lite.ttio.workers.dev/note/internationalization)
+- [Comment System Configuration Guide](https://thought-lite.ttio.workers.dev/note/comment)
+- [Notification Configuration Guide](https://thought-lite.ttio.workers.dev/note/notification)
+- [OAuth Configuration Guide](https://thought-lite.ttio.workers.dev/note/oauth).
 
 ## 💻 Commands
 
@@ -134,7 +135,7 @@ Content creation is centralized in the `src/content` directory, mainly including
 - `preface` - Displayed on the homepage as the first impression
 - `information` - Containing various descriptive content
 
-For details, refer to the [Content Creation Guide](src/content/note/en/content.md).
+For details, refer to the [Content Creation Guide](https://thought-lite.ttio.workers.dev/note/content).
 
 ## 🤝 Contributing
 
@@ -143,7 +144,8 @@ All kinds of contributions are welcome and appreciated!
 - Help promote the project or assist other users
 - Report [issues](https://github.com/tuyuritio/astro-theme-thought-lite/issues) or suggest new features
 - Improve documentation or help with internationalization (i18n)
-- Submit code contributions - see the [Code Contribution Guide](CONTRIBUTING.md) for more details
+- Submit code contributions
+- See [Contribution Guide](CONTRIBUTING.md) for more information
 
 ## 🙏 Acknowledgments
 
@@ -157,7 +159,6 @@ All kinds of contributions are welcome and appreciated!
 - **Fonts** - [Google Fonts](https://fonts.google.com/) | [ZeoSeven Fonts](https://fonts.zeoseven.com/)
 - **Image Viewer** - [Medium Zoom](https://github.com/francoischalifour/medium-zoom)
 - **SPA Transitions** - [Swup](https://swup.js.org/)
-- **Time Handling** - [Luxon](https://moment.github.io/luxon/)
 - **OAuth** - [Arctic](https://arcticjs.dev/)
 - **Code Quality** - [Biome](https://biomejs.dev/)
 - **ORM** - [Drizzle ORM](https://orm.drizzle.team/)

@@ -1,6 +1,6 @@
-import siteConfig, { providers } from "./src/utils/config";
+import siteConfig, { providers } from "./src/lib/config";
 
-// @ts-ignore
+// @ts-expect-error
 const env = import.meta.env ?? {};
 
 const config = siteConfig({
@@ -16,9 +16,18 @@ const config = siteConfig({
 		type: "CC BY-NC-ND 4.0",
 		year: "2025"
 	},
+	timezone: "UTC",
 	i18n: {
 		locales: ["en", "zh-cn", "ja"],
 		defaultLocale: "zh-cn"
+	},
+	pagination: {
+		note: 15,
+		jotting: 24
+	},
+	heatmap: {
+		unit: "day",
+		weeks: 20
 	},
 	feed: {
 		section: "*",
@@ -34,7 +43,11 @@ const config = siteConfig({
 
 const monolocale = Number(config.i18n.locales.length) === 1;
 
-const turnstile = env.CLOUDFLARE_TURNSTILE_SECRET_KEY ? env.CLOUDFLARE_TURNSTILE_SITE_KEY : null;
+const turnstile = env.CLOUDFLARE_TURNSTILE_SECRET_KEY ? env.CLOUDFLARE_TURNSTILE_SITE_KEY : undefined;
+
+const push = env.VAPID_PRIVATE_KEY ? env.VAPID_PUBLIC_KEY : undefined;
+
+const email = Boolean(env.EMAIL_FROM);
 
 const oauth = providers([
 	{ name: "GitHub", logo: "simple-icons--github", clientID: env.GITHUB_CLIENT_ID, clientSecret: env.GITHUB_CLIENT_SECRET },
@@ -42,6 +55,6 @@ const oauth = providers([
 	{ name: "X", logo: "simple-icons--x", clientID: env.TWITTER_CLIENT_ID, clientSecret: env.TWITTER_CLIENT_SECRET }
 ]);
 
-export { turnstile, oauth, monolocale };
+export { turnstile, oauth, monolocale, push, email };
 
 export default config;

@@ -21,7 +21,7 @@ jobs:
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: 10
+        run_install: false
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -33,14 +33,21 @@ jobs:
       run: echo '${{ secrets.ENV }}' > .env
 
     - name: Create wrangler.toml from template
+      env:
+        PROJECT_NAME: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
+        DATABASE_NAME: ${{ secrets.CLOUDFLARE_DATABASE_NAME }}
+        DATABASE_ID: ${{ secrets.CLOUDFLARE_DATABASE_ID }}
       run: |
-        cp wrangler.example.toml wrangler.toml
-        sed -i 's/<PROJECT_NAME>/${{ secrets.CLOUDFLARE_PROJECT_NAME }}/g' wrangler.toml
-        sed -i 's/<DATABASE_NAME>/${{ secrets.CLOUDFLARE_DATABASE_NAME }}/g' wrangler.toml
-        sed -i 's/<DATABASE_ID>/${{ secrets.CLOUDFLARE_DATABASE_ID }}/g' wrangler.toml
+        envsubst < wrangler.example.toml > wrangler.toml
 
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
+
+    - name: Font Cache
+      uses: actions/cache@v3
+      with:
+        path: node_modules/.cache/og-fonts
+        key: og-fonts-cache-v1
 
     - name: Build project
       run: pnpm run build

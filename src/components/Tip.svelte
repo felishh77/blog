@@ -11,7 +11,7 @@ const icons = {
 	error: "lucide--x-circle"
 } as const;
 
-/** Type definition for a tip/notification object */
+/** Type definition for a tip object */
 type Tip = { type: keyof typeof icons; content: string };
 
 /** Global reactive store containing array of active tips */
@@ -24,10 +24,10 @@ const tips = writable<Tip[]>([]);
 const Close = (tip: Tip) => tips.update(list => list.filter(item => (item !== tip ? item : undefined)));
 
 /**
- * Public API function to display a new tip/notification
+ * Public API function to display a new tip
  * This function can be imported and called from other components
- * @param type - Type of notification (determines icon and styling)
- * @param content - Text content to display in the notification
+ * @param type - Type of tip
+ * @param content - Text content to display in the tip
  */
 export function pushTip(type: keyof typeof icons, content: string): void {
 	const tip = { type, content };
@@ -46,7 +46,7 @@ export function pushTip(type: keyof typeof icons, content: string): void {
 	import { circInOut } from "svelte/easing";
 </script>
 
-<figure class="fixed top-0 start-0 w-full h-full flex flex-col pe-5 z-5 pointer-events-none overflow-hidden">
+<figure class="fixed top-0 start-0 w-full h-full flex flex-col pe-5 z-5000 pointer-events-none overflow-hidden">
 	{#each $tips as tip (tip)}
 		<section animate:flip={{ duration: 200, easing: circInOut }} transition:fly={{ y: -100, opacity: 0, duration: 200, easing: circInOut }} class="relative flex items-center gap-2 ms-auto mt-7 border-2 border-weak rounded-sm py-4 px-3 w-xs bg-background shadow-md pointer-events-auto">
 			<Icon name={icons[tip.type]} />

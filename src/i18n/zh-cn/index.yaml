@@ -1,6 +1,6 @@
 about:
-  introduction: 自述
-  linkroll: 友链
+  introduction: ○○自述
+  linkroll: ○○连结
 cancel: 取消
 comment:
   author: 笔者
@@ -51,6 +51,7 @@ comment:
     failure: 人机校验失败
     progress: 正在自动进行人机校验
 confirm: 确认
+contents: 目录
 delete: 删除
 drifter:
   deactivate:
@@ -61,7 +62,7 @@ drifter:
       comments: 所有想法都将保留但匿名化处理
       data: 所有个人信息将被清除
       new: 重新授权登录将创建全新账号
-      notification: 无法再接收任何通知
+      notification: 无法再接收邮件通知
     description: 若确认注销，您的账号将会：
     done: 归隐旅人
     failure: 注销失败
@@ -84,6 +85,29 @@ drifter:
     failure: 更新失败
     name: 更新
     success: 更新成功
+email:
+  empty: 邮箱地址不能为空
+  name: 电子邮箱
+  notify: 邮件通知
+  remove:
+    failure: 邮箱删除失败
+    name: 删除邮箱
+    success: 邮箱删除成功
+  unsubscribe:
+    invalid: 取消订阅链接无效
+    success: 您已成功取消订阅！
+  verify:
+    already: 您已完成验证
+    conflict: 与旧邮箱地址重复
+    done: 邮箱已验证
+    expired: 验证链接已过期
+    invalid: 验证链接无效
+    limit: 请稍后重试
+    resend: 重新发送验证邮件
+    send:
+      failure: 无法发送验证邮件
+      success: 验证邮件已发送，链接将在 5 分钟后过期，请尽快查收
+    success: 邮箱验证成功！
 feed:
   address: 订阅地址
   copy:
@@ -97,8 +121,10 @@ feed:
 home:
   heatmap:
     empty: 无字
-    jotting: 随笔 {count} 则
-    note: 文记 {count} 篇
+    jotting:
+      other: 随笔 {count} 则
+    note:
+      other: 文记 {count} 篇
   latest: 最新内容
   prefaces: 序文一览
 jotting:
@@ -106,8 +132,9 @@ jotting:
   tag: 标签
 language: 简体中文
 navigation:
-  about: 关于
-  home: 主页
+  about: 絮述
+  email: 邮箱
+  home: 序章
   jotting: 随笔
   note: 文记
   policy: 政策
@@ -115,35 +142,32 @@ navigation:
   subscription: 订阅
 note:
   comment: 前往想法
-  contents: 目录
   empty: 暂无文记
   series: 系列
   tag: 标签
   top: 回到顶部
-notification:
-  denied: 您已拒绝桌面通知权限
-  disable:
-    failure: 禁用桌面通知失败
-    success: 桌面通知已禁用
-  enable:
-    failure: 启用桌面通知失败
-    success: 桌面通知已启用
-  fresh:
-    body: 点击前往共织灵光
-    title: 新声悄至，文下有言
-  name: 桌面通知
-  reply:
-    body: 点击回溯交流轨迹
-    title: 片语有声，回响已至
 oauth:
   benefit:
     captcha: 无需进行人机验证
     comment: 编辑和删除自己的想法
     homepage: 展示自己的个人主页
-    notification: 接收想法回复的桌面通知
+    notification: 接收想法回复的邮件通知
   signin: 使用 {provider} 登录
+push:
+  denied: 您已拒绝桌面通知权限
+  disable:
+    name: 桌面通知已禁用
+    success: 桌面通知已禁用
+  enable:
+    failure: 桌面通知启用失败
+    name: 桌面通知已启用
+    success: 桌面通知已启用
+  reply:
+    body: 点击回溯交流轨迹
+    title: 片语有声，回响已至
 read:
-  words: '{words} 字'
+  words:
+    other: '{count} 字'
 sensitive:
   back: 返回列表
   continue: 我已知晓，继续阅读
@@ -154,5 +178,6 @@ sensitive:
   icon: 包含敏感内容
   title: 内容警告
   warning: 若这些内容可能影响您的心理健康，请立即离开！
-statistics: 写下 {words} 字
+statistics:
+  other: 写下 {count} 字
 theme: '主题: ThoughtLite'

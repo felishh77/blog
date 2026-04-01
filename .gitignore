@@ -6,6 +6,7 @@ dist/
 # generated types
 .astro/
 .vscode/count
+/worker-configuration.d.ts
 
 # dependencies
 node_modules/
@@ -25,7 +26,8 @@ todo*
 
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
 wrangler.toml
 
 # macOS-specific files

@@ -51,6 +51,7 @@ comment:
     failure: Human verification failed
     progress: Verifying automatically
 confirm: Confirm
+contents: Contents
 delete: Delete
 drifter:
   deactivate:
@@ -61,7 +62,7 @@ drifter:
       comments: All thoughts will be retained but anonymized
       data: All personal information will be deleted
       new: Re-authorization will create a new account
-      notification: No longer receive any notifications
+      notification: No longer receive email notifications
     description: 'If you confirm deactivation, your account will:'
     done: Departed Voyager
     failure: Deactivation failed
@@ -84,6 +85,31 @@ drifter:
     failure: Update failed
     name: Update
     success: Update successful
+email:
+  empty: Email address cannot be empty
+  name: Email
+  notify: Email Notifications
+  remove:
+    failure: Email deletion failed
+    name: Delete Email
+    success: Email deleted successfully
+  unsubscribe:
+    invalid: Unsubscribe link is invalid
+    success: You have successfully unsubscribed!
+  verify:
+    already: You have already completed verification
+    conflict: Duplicate with the old email address
+    done: Email verified
+    expired: Verification link has expired
+    invalid: Invalid verification link
+    limit: Please try again later
+    resend: Resend verification email
+    send:
+      failure: Unable to send verification email
+      success: >-
+        Verification email sent. The link will expire in 5 minutes, please check
+        it as soon as possible.
+    success: Email verification successful!
 feed:
   address: Subscription address
   copy:
@@ -99,8 +125,12 @@ feed:
 home:
   heatmap:
     empty: No words
-    jotting: '{count} jottings'
-    note: '{count} notes'
+    jotting:
+      one: '{count} jotting'
+      other: '{count} jottings'
+    note:
+      one: '{count} note'
+      other: '{count} notes'
   latest: Latest
   prefaces: Prefaces
 jotting:
@@ -109,6 +139,7 @@ jotting:
 language: English
 navigation:
   about: About
+  email: Email
   home: Home
   jotting: Jotting
   note: Note
@@ -117,35 +148,33 @@ navigation:
   subscription: Subscription
 note:
   comment: Thoughts
-  contents: Contents
   empty: No notes available
   series: Series
   tag: Tag
   top: To Top
-notification:
-  denied: You have denied desktop notification permission
-  disable:
-    failure: Failed to disable desktop notifications
-    success: Desktop notifications are disabled
-  enable:
-    failure: Failed to enable desktop notifications
-    success: Desktop notifications are enabled
-  fresh:
-    body: Click to see the thought
-    title: A quiet new voice beneath your words
-  name: Desktop Notification
-  reply:
-    body: Click to trace back the communication
-    title: A fragment speaks, and the echo has come
 oauth:
   benefit:
     captcha: No need to resolve CAPTCHA
     comment: Edit and delete your own thoughts
     homepage: Display your personal homepage
-    notification: Receive desktop notifications for thought replies
+    notification: Receive email notifications for thought replies
   signin: Sign in with {provider}
+push:
+  denied: You have denied desktop notification permission
+  disable:
+    name: Desktop notifications disabled
+    success: Desktop notifications are disabled
+  enable:
+    failure: Failed to enable desktop notifications
+    name: Desktop notifications enabled
+    success: Desktop notifications are enabled
+  reply:
+    body: Click to trace back the communication
+    title: A fragment speaks, and the echo has come
 read:
-  words: '{words} words'
+  words:
+    one: '{count} word'
+    other: '{count} words'
 sensitive:
   back: Return to list
   continue: I understand, continue reading
@@ -160,5 +189,7 @@ sensitive:
   icon: Contains sensitive content
   title: Content Warning
   warning: If this content might affect your mental health, please leave immediately!
-statistics: Wrote {words} words
+statistics:
+  one: Wrote {count} word
+  other: Wrote {count} words
 theme: 'Theme: ThoughtLite'

@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import config, { monolocale } from "$config";
 import graph from "$graph/content";
+import i18nit from "$i18n";
 
 export async function getStaticPaths() {
 	const notes = await getCollection("note", note => !note.data.draft);
@@ -22,8 +23,9 @@ export async function getStaticPaths() {
 		return {
 			params: { locale, id },
 			props: {
+				type: i18nit(locale || config.i18n.defaultLocale)(`navigation.note`),
 				title: note.data.title,
-				timestamp: note.data.timestamp,
+				time: note.data.timestamp.toISOString().split("T")[0].replace(/-/g, "/"),
 				series: note.data.series,
 				tags: note.data.tags
 			}
@@ -37,11 +39,11 @@ export async function getStaticPaths() {
 export const GET: APIRoute = async ({ params, props }) => {
 	const image = await graph({
 		locale: params.locale || config.i18n.defaultLocale,
-		type: "note",
+		type: props.type,
 		site: config.title,
 		author: config.author.name,
 		title: props.title,
-		timestamp: props.timestamp,
+		time: props.time,
 		series: props.series,
 		tags: props.tags
 	});

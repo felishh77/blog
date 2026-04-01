@@ -1,14 +1,17 @@
 <script lang="ts">
 import { actions } from "astro:actions";
-import { onMount } from "svelte";
 import Icon from "$components/Icon.svelte";
 import Modal from "$components/Modal.svelte";
 import { pushTip } from "$components/Tip.svelte";
 import i18nit from "$i18n";
+import Email from "./Email.svelte";
+import context from "./context.svelte";
 
-let { open = $bindable(), locale, oauth, drifter }: { open: boolean; locale: string; oauth: any[]; drifter: any } = $props();
+let { open = $bindable() }: { open: boolean } = $props();
 
-const t = i18nit(locale);
+const t = i18nit(context.locale);
+
+const drifter = $derived(context.drifter!);
 
 /**
  * Fetch and update user profile data from OAuth provider
@@ -27,71 +30,13 @@ async function synchronize() {
 	}
 }
 
-/**
- * Toggle push notification subscription on/off
- */
-async function toggleNotification() {
-	const registration = await navigator.serviceWorker.ready;
-
-	// Check for existing subscription to determine current state
-	let subscription = await registration.pushManager.getSubscription();
-	if (subscription) {
-		// Unsubscribe from push notifications
-		await subscription.unsubscribe();
-		const { data, error } = await actions.notification.unsubscribe({ endpoint: subscription.endpoint });
-		if (!error) {
-			notification = false;
-			pushTip("success", t("notification.disable.success"));
-		} else {
-			pushTip("error", t("notification.disable.failure"));
-		}
-	} else {
-		// Request notification permission before subscribing
-		const permission = await Notification.requestPermission();
-		if (permission !== "granted") {
-			notification = false;
-			return pushTip("information", t("notification.denied"));
-		}
-
-		// Get VAPID public key for push subscription
-		const { data: publicKey, error: keyError } = await actions.notification.key();
-		if (keyError) {
-			notification = false;
-			return pushTip("error", t("notification.enable.failure"));
-		}
-
-		// Create push subscription with VAPID key
-		const subscription = (
-			await registration.pushManager.subscribe({
-				userVisibleOnly: true,
-				applicationServerKey: publicKey
-			})
-		).toJSON();
-
-		// Register subscription with server
-		const { data, error } = await actions.notification.subscribe({
-			locale,
-			endpoint: subscription.endpoint!,
-			p256dh: subscription.keys!.p256dh,
-			auth: subscription.keys!.auth
-		});
-		if (!error) {
-			notification = true;
-			pushTip("success", t("notification.enable.success"));
-		} else {
-			notification = false;
-			pushTip("error", t("notification.enable.failure"));
-		}
-	}
-}
-
 // Track information update state
 let updating: boolean = $state(false);
 
 // Update user information
 async function update() {
 	updating = true;
-	const { data, error } = await actions.drifter.update({ homepage: drifter.homepage });
+	const { error } = await actions.drifter.update({ homepage: drifter.homepage, notify: drifter.notify });
 	updating = false;
 
 	if (!error) {
@@ -108,7 +53,7 @@ let deactivateView = $state(false);
  * Permanently deactivate user account and clean up data
  */
 async function deactivate() {
-	const { data, error } = await actions.drifter.deactivate();
+	const { error } = await actions.drifter.deactivate();
 	if (!error) {
 		// Clean up push notification subscription before account deletion
 		const registration = await navigator.serviceWorker.ready;
@@ -124,26 +69,6 @@ async function deactivate() {
 
 	deactivateView = false;
 }
-
-// Track push notification subscription state
-let notification: boolean = $state(false);
-onMount(async () => {
-	// Register service worker for push notifications
-	const registration = await navigator.serviceWorker.register("/sw.js");
-	const subscription = await registration.pushManager.getSubscription();
-	// Set initial notification state based on existing subscription
-	notification = !!subscription;
-
-	if (subscription) {
-		// Verify subscription is still valid on server
-		const { data, error } = await actions.notification.check({ endpoint: subscription.endpoint });
-		if (error || !data) {
-			// Clean up invalid subscription
-			await subscription.unsubscribe();
-			notification = false;
-		}
-	}
-});
 </script>
 
 <Modal bind:open={deactivateView}>
@@ -170,10 +95,10 @@ onMount(async () => {
 <Modal bind:open>
 	<main class="flex flex-col grow gap-5">
 		<header class="flex flex-col sm:flex-row gap-5">
-			<img src={drifter.image} alt={drifter.id} class="self-center w-20 b-2 border-solid border-weak rounded-full" />
+			<img src={drifter.image} alt={drifter.id} class="self-center w-20 h-20 border-2 border-solid border-weak rounded-full" onerror={e => (((e.currentTarget as HTMLImageElement).onerror = null), ((e.currentTarget as HTMLImageElement).src = "/akkarin.webp"))} />
 			<aside class="grow flex flex-col justify-center gap-2">
 				<menu class="flex items-center gap-2 font-bold">
-					{#each oauth as provider}
+					{#each context.oauth as provider}
 						{#if provider.name === drifter.provider}
 							<Icon name={provider.logo} />
 						{/if}
@@ -188,12 +113,13 @@ onMount(async () => {
 		</header>
 		<hr class="border-b border-weak" />
 		<div class="flex flex-col items-start gap-5">
-			<section>
-				<label class="flex items-center">{t("notification.name")}：<input type="checkbox" class="switch" bind:checked={notification} onchange={toggleNotification} /></label>
-			</section>
-			<section class="flex flex-col gap-2">
-				<label>{t("drifter.homepage")}：<input type="url" class="input" bind:value={drifter.homepage} /></label>
-			</section>
+			<label class="flex items-center gap-1 flex-wrap">{t("drifter.homepage")}: <input type="url" class="input" bind:value={drifter.homepage} /></label>
+			{#if context.email}
+				<Email />
+				{#if drifter.emailState === "verified"}
+					<label class="flex items-center gap-1 flex-wrap">{t("email.notify")}: <input type="checkbox" class="switch" bind:checked={drifter.notify} /></label>
+				{/if}
+			{/if}
 		</div>
 		<div class="self-center flex gap-5">
 			<button onclick={() => (open = false)} class="form-button">{t("cancel")}</button>

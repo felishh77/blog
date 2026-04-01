@@ -5,7 +5,10 @@
 		"lokalise.i18n-ally",
 		"bradlc.vscode-tailwindcss",
 		"svelte.svelte-vscode",
-		"biomejs.biome"
+		"biomejs.biome",
+		"unifiedjs.vscode-mdx",
+		"bierner.github-markdown-preview",
+		"yzhang.markdown-all-in-one"
 	],
 	"unwantedRecommendations": []
 }

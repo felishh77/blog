@@ -1,38 +1,27 @@
 <script lang="ts">
 import { actions } from "astro:actions";
 import config from "$config";
-import remark from "$utils/remark";
-import Time from "$utils/time";
+import remark from "$lib/remark";
+import Time from "$lib/time";
 import Icon from "$components/Icon.svelte";
 import Modal from "$components/Modal.svelte";
 import { pushTip } from "$components/Tip.svelte";
 import i18nit from "$i18n";
 import Self from "./Comment.svelte";
 import Reply from "./Reply.svelte";
+import context from "./context.svelte";
+
+export type CommentItem = NonNullable<Awaited<ReturnType<typeof actions.comment.list>>["data"]>["treeification"][number];
 
 let {
-	locale,
+	section,
+	item,
 	link,
-	oauth,
-	turnstile,
-	drifter,
-	comment,
 	refresh,
-	depth = 0,
-	limit = $bindable(0)
-}: {
-	locale: string;
-	link: string;
-	oauth: any;
-	turnstile?: string;
-	drifter?: any;
-	comment: any;
-	refresh: any;
-	depth?: number;
-	limit?: number;
-} = $props();
-
-const t = i18nit(locale);
+	comment,
+	depth = 0
+}: { section: string; item: string; link: string; refresh: (auto?: boolean) => Promise<void>; comment: CommentItem; depth?: number } = $props();
+const t = i18nit(context.locale);
 
 /** Minimum nesting depth for comment threads to ensure proper display */
 const MIN_DEPTH = 1;
@@ -60,7 +49,7 @@ async function share() {
  * Delete comment after confirmation
  */
 async function remove() {
-	const { error } = await actions.comment.delete({ id: comment.id });
+	const { error } = await actions.comment.delete(comment.id);
 	if (!error) {
 		// Refresh comment list and close modal on successful deletion
 		refresh();
@@ -77,7 +66,7 @@ async function remove() {
 	<div id="delete" class="flex flex-col items-center justify-center gap-5">
 		<h2>{t("comment.remove.name")}</h2>
 		<input type="hidden" name="ID" value={comment.id} />
-		<time>{t("comment.time")}：{Time.full(comment.timestamp, Time.userTimezone)}</time>
+		<time>{t("comment.time")}: {Time.toString(comment.timestamp, true)}</time>
 		<section class="flex gap-5">
 			<button class="form-button" onclick={() => (deleteView = false)}>{t("cancel")}</button>
 			<button class="form-button" onclick={remove}>{t("confirm")}</button>
@@ -89,12 +78,12 @@ async function remove() {
 	<div id="history" class="flex flex-col gap-5 max-h-[80vh]">
 		<h3>{t("comment.edit.history")}</h3>
 		<dl class="flex flex-col gap-2 overflow-y-auto">
-			{#await actions.comment.history({ id: comment.id })}
+			{#await actions.comment.history(comment.id)}
 				<div class="flex justify-center p-4"><Icon name="svg-spinners--3-dots-move" size={25} /></div>
 			{:then response}
 				{#if !response.error}
 					{#each response.data.reverse() as item}
-						<dt class="font-bold">{Time(item.timestamp)}</dt>
+						<dt class="font-bold">{Time.toString(item.timestamp)}</dt>
 						{#await remark.process(item.content) then html}
 							<dd class="markdown comment">{@html html}</dd>
 						{/await}
@@ -119,7 +108,7 @@ async function remove() {
 						{#if comment.author}<Icon name="lucide--signature" title={t("comment.author")} />{/if}
 						{#if comment.homepage}<a href={comment.homepage} target="_blank" class="inline-flex"><Icon name="lucide--house" /></a>{/if}
 						<span>·</span>
-						<time class="text-xs">{Time(comment.updated ?? comment.timestamp, Time.userTimezone).replace("-", " ")}</time>
+						<time class="text-xs">{Time.toString(comment.updated ?? comment.timestamp, true).replace("-", " ")}</time>
 					</p>
 					{#if comment.description}<span title={comment.description} class="text-secondary text-xs leading-normal truncate">{comment.description}</span>{/if}
 				</dt>
@@ -133,7 +122,7 @@ async function remove() {
 							<b class="text-weak">{t("drifter.deactivate.done")}</b>
 						{/if}
 						<span>·</span>
-						<time class="text-xs">{Time(comment.timestamp, Time.userTimezone).replace("-", " ")}</time>
+						<time class="text-xs">{Time.toString(comment.timestamp, true).replace("-", " ")}</time>
 					</p>
 				</dt>
 			{/if}
@@ -142,12 +131,11 @@ async function remove() {
 			{#if comment.content}
 				<div class="markdown comment">{#await remark.process(comment.content) then html}{@html html}{/await}</div>
 				<dd class="flex items-center gap-4 mt-2">
-					<button onclick={() => ((replyView = !replyView), (editView = false))} disabled={!turnstile && !(oauth.length && drifter)}><Icon name="lucide--reply" title={t("comment.reply")} /></button>
+					<button onclick={() => ((replyView = !replyView), (editView = false))} disabled={!context.turnstile && !context.drifter}><Icon name="lucide--reply" title={t("comment.reply")} /></button>
 					{#if comment.updated && config.comment?.history}<button onclick={() => (historyView = true)}><Icon name="lucide--history" title={t("comment.history")} /></button>{/if}
 					<button onclick={share}><Icon name="lucide--share-2" title={t("comment.share.name")} /></button>
 
-					<!-- Show edit and delete buttons only if it's authenticated -->
-					{#if oauth.length && comment.drifter === drifter?.id}
+					{#if comment.drifter === context.drifter?.id}
 						<button onclick={() => ((editView = !editView), (replyView = false))}><Icon name="lucide--pencil" title={t("comment.edit.name")} /></button>
 						<button onclick={() => (deleteView = true)}><Icon name="lucide--trash" title={t("delete")} /></button>
 					{/if}
@@ -159,13 +147,13 @@ async function remove() {
 	</dl>
 	<div class:ms-7={depth < MIN_DEPTH} class:sm:ms-7={depth < Math.max(MIN_DEPTH, MAX_DEPTH)}>
 		{#if replyView && !editView}
-			<Reply {locale} {link} {oauth} {turnstile} {drifter} section={comment.section} item={comment.item} reply={comment.id} {refresh} bind:view={replyView} bind:limit />
+			<Reply {section} {item} {link} {refresh} reply={comment.id} bind:view={replyView} />
 		{:else if editView && !replyView}
-			<Reply {locale} {link} {oauth} {turnstile} {drifter} section={comment.section} item={comment.item} reply={comment.reply} edit={comment.id} text={comment.content} {refresh} bind:view={editView} bind:limit />
+			<Reply {section} {item} {link} {refresh} reply={comment.reply} edit={comment.id} text={comment.content} bind:view={editView} />
 		{/if}
 
 		{#each comment.subcomments as subcomment}
-			<Self {locale} {link} {oauth} {turnstile} {drifter} comment={subcomment} {refresh} depth={depth + 1} bind:limit />
+			<Self {section} {item} {link} {refresh} comment={subcomment} depth={depth + 1} />
 		{/each}
 	</div>
 </main>

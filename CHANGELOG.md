@@ -1,5 +1,238 @@
 # Changelog
 
+## [0.39.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.38.0...v0.39.0) (2026-03-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* The `PUBLIC_TIMEZONE` variable in `.env` is no longer supported. You must migrate this value to the `timezone` field within your `site.config.ts` file.
+
+### Bug Fixes
+
+* apply locale-specific font styles dynamically ([27056b6](https://github.com/tuyuritio/astro-theme-thought-lite/commit/27056b6fa70c2b53181681ba33bdec81856a4018))
+* **style:** adjust button positioning ([747613f](https://github.com/tuyuritio/astro-theme-thought-lite/commit/747613fc188c159546dde3ad020cd02181f88773))
+
+
+### Code Refactoring
+
+* relocate `timezone` to site config and rename `utils` to `lib` ([34caecb](https://github.com/tuyuritio/astro-theme-thought-lite/commit/34caecbfe843dfa206fa88d88a8e056c858eddee))
+
+## [0.38.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.37.1...v0.38.0) (2026-03-07)
+
+
+### Features
+
+* display related series in notes' sidebar ([bc6a853](https://github.com/tuyuritio/astro-theme-thought-lite/commit/bc6a8537eb9d1b59a913c7834e422cef7d46248e))
+
+## [0.37.1](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.37.0...v0.37.1) (2026-02-25)
+
+
+### Bug Fixes
+
+* **render:** prevent inline layer reordering from breaking markdown styles ([#119](https://github.com/tuyuritio/astro-theme-thought-lite/issues/119)) ([36cab34](https://github.com/tuyuritio/astro-theme-thought-lite/commit/36cab349e29ad64f090b48c10b6994e3a0f7ffff))
+* **style:** force hide TOC button on responsive layouts ([07661ff](https://github.com/tuyuritio/astro-theme-thought-lite/commit/07661ffde244be229a012e3ab6fedb364d5d9033))
+
+## [0.37.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.36.4...v0.37.0) (2026-02-23)
+
+
+### Features
+
+* add mobile sidebar table of contents ([fa47a9d](https://github.com/tuyuritio/astro-theme-thought-lite/commit/fa47a9d1a6d2f67d5b3f29e0cdc9d531916f3fd4))
+
+## [0.36.4](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.36.3...v0.36.4) (2026-02-23)
+
+
+### Bug Fixes
+
+* **style:** enhance task list styling ([6132b16](https://github.com/tuyuritio/astro-theme-thought-lite/commit/6132b16ef8c76275955eed7af34dfdc3e911bb41))
+* **style:** improve footnote list styling ([3a112c3](https://github.com/tuyuritio/astro-theme-thought-lite/commit/3a112c336c0f7bd06efe576ff9899abccaacf3c9))
+
+
+### Miscellaneous Chores
+
+* remove Svelte link from footer ([f481839](https://github.com/tuyuritio/astro-theme-thought-lite/commit/f481839df1b2a4d954309415000fd224a861980c))
+
+## [0.36.3](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.36.2...v0.36.3) (2026-02-11)
+
+
+### Bug Fixes
+
+* **style:** implement native Anchor Position API for tooltips ([2c71f32](https://github.com/tuyuritio/astro-theme-thought-lite/commit/2c71f32e7c2f6ce71945f87bfe7cec652a86a87d))
+* **style:** resolve light mode lock-in and deduplicate CSS variables ([299bcb6](https://github.com/tuyuritio/astro-theme-thought-lite/commit/299bcb6331812df149c288ec3a68602a8745a28a)), closes [#113](https://github.com/tuyuritio/astro-theme-thought-lite/issues/113)
+
+## [0.36.2](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.36.1...v0.36.2) (2026-02-08)
+
+
+### Bug Fixes
+
+* prevent view transition aborts ([f78516e](https://github.com/tuyuritio/astro-theme-thought-lite/commit/f78516ec39b623f47d8989003f74703da47cb381))
+
+## [0.36.1](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.36.0...v0.36.1) (2026-02-07)
+
+
+### Bug Fixes
+
+* prevent duplicate event registration ([0491424](https://github.com/tuyuritio/astro-theme-thought-lite/commit/04914243feb9e5f55120c90eb0087620d106d9c3))
+* **style:** standardize theme gradient animation origins ([fcb93ed](https://github.com/tuyuritio/astro-theme-thought-lite/commit/fcb93edf1d7b33b0e9c2cf5e76221bdcf4f2ffa5))
+
+## [0.36.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.7...v0.36.0) (2026-02-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **navigation:** The `Menu` has been refactored from Svelte to an Astro component. Now using Astro slot syntax instead of Svelte snippets.
+
+### Features
+
+* **navigation:** optimize interaction and routing logic ([7c9b5dd](https://github.com/tuyuritio/astro-theme-thought-lite/commit/7c9b5dd9f84517d6162c39ce233a2bf6ed8d09d5))
+
+
+### Bug Fixes
+
+* simplify URL handling in components ([24d8191](https://github.com/tuyuritio/astro-theme-thought-lite/commit/24d819133fb57dcf09ef94cab4e242e6f6f62470))
+
+## [0.35.7](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.6...v0.35.7) (2026-02-03)
+
+
+### Bug Fixes
+
+* **font:** optimize font fallbacks  to prevent FOUT ([b72fe55](https://github.com/tuyuritio/astro-theme-thought-lite/commit/b72fe55f223d257f1688edd3034746bceae6017a))
+* **style:** prevent unintended outlines ([bce8145](https://github.com/tuyuritio/astro-theme-thought-lite/commit/bce8145513f2e9b476d49889ab84392759172cbc))
+
+## [0.35.6](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.5...v0.35.6) (2026-02-03)
+
+
+### Bug Fixes
+
+* **style:** enhance focus outline ([17d4565](https://github.com/tuyuritio/astro-theme-thought-lite/commit/17d4565353b59dfadf6060ec0e36f4b059e14f71))
+
+## [0.35.5](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.4...v0.35.5) (2026-02-01)
+
+
+### Bug Fixes
+
+* improve URL replacing logic ([66ba5ce](https://github.com/tuyuritio/astro-theme-thought-lite/commit/66ba5ceea28c020f549fcb986404ad3c6703d0bb))
+* **pagination:** implement reusable pagination component ([61690c3](https://github.com/tuyuritio/astro-theme-thought-lite/commit/61690c3c772632c0f538c27a5304f54cdca70fc4))
+
+## [0.35.4](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.3...v0.35.4) (2026-01-17)
+
+
+### Miscellaneous Chores
+
+* add alternate feed link ([5f776b8](https://github.com/tuyuritio/astro-theme-thought-lite/commit/5f776b834bcd031f416bf534a8d4375279f32ac8))
+* update environment variable patterns ([72429c8](https://github.com/tuyuritio/astro-theme-thought-lite/commit/72429c87bd02f57018b027bfb403f84266b4ae89))
+
+## [0.35.3](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.2...v0.35.3) (2026-01-15)
+
+
+### Bug Fixes
+
+* **feed:** use relative URL for XSL stylesheet ([795a02a](https://github.com/tuyuritio/astro-theme-thought-lite/commit/795a02aca1ac1ca17dd994ac8ba1e55d2bb18911))
+
+## [0.35.2](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.1...v0.35.2) (2026-01-15)
+
+
+### Bug Fixes
+
+* **feed:** upgrade dependency to support formal XSL configuration ([b57d1e4](https://github.com/tuyuritio/astro-theme-thought-lite/commit/b57d1e43dfb34f23dd9a98ee6cb6f84f8877e3c3))
+
+
+### Miscellaneous Chores
+
+* upgrade dependency and refactor ZeoSevenFonts provider ([e4302f5](https://github.com/tuyuritio/astro-theme-thought-lite/commit/e4302f52ce5ba0ac4064df44cb8c7233ffe997f6))
+
+
+### Styles
+
+* add text selection styling to title ([4c7614d](https://github.com/tuyuritio/astro-theme-thought-lite/commit/4c7614d50b15d41f9c2184825a19bbc86da4883e))
+
+## [0.35.1](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.35.0...v0.35.1) (2026-01-09)
+
+
+### Bug Fixes
+
+* correct date formatting in toString function ([5e4ed05](https://github.com/tuyuritio/astro-theme-thought-lite/commit/5e4ed05194a6ef90b6de9bb45e2f43be4a71defa))
+
+## [0.35.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.34.0...v0.35.0) (2026-01-09)
+
+
+### Features
+
+* **config:** add pagination configuration ([f72d8e6](https://github.com/tuyuritio/astro-theme-thought-lite/commit/f72d8e6e9b9dad35b31cd129c13fde64fef18d12))
+* refactor Time utility and add heatmap configuration ([4f4a61c](https://github.com/tuyuritio/astro-theme-thought-lite/commit/4f4a61ce30d9264b4feee625dca5668b66c37724))
+
+## [0.34.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.33.0...v0.34.0) (2026-01-03)
+
+
+### Features
+
+* **markdown:** implement custom GitHub alert plugin ([980a811](https://github.com/tuyuritio/astro-theme-thought-lite/commit/980a8113a46abd79e08a654c0cd510a2d7dfae80))
+
+
+### Bug Fixes
+
+* enhance language switcher interaction ([cc46662](https://github.com/tuyuritio/astro-theme-thought-lite/commit/cc46662208ec8a3a7519b49188d91182f5542b31))
+* **graph:** use full font files to resolve Open Graph generation error ([c78c93f](https://github.com/tuyuritio/astro-theme-thought-lite/commit/c78c93f4bf7d845ecf96834ca3eea94fe6c5b276))
+
+## [0.33.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.32.1...v0.33.0) (2026-01-02)
+
+
+### Features
+
+* **markdown:** replace directive ruby syntax with new custom ruby syntax ([974828b](https://github.com/tuyuritio/astro-theme-thought-lite/commit/974828be8578868df2ea051c4e20e76f63838048))
+
+
+### Styles
+
+* remove unused styles ([27cb4d9](https://github.com/tuyuritio/astro-theme-thought-lite/commit/27cb4d9f0f9000b178b551b435c23fb9b5a0cd61))
+
+## [0.32.1](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.32.0...v0.32.1) (2025-12-31)
+
+
+### Bug Fixes
+
+* **graph:** enhance Open Graph image generation with fonts caching ([693c9cd](https://github.com/tuyuritio/astro-theme-thought-lite/commit/693c9cd70471ffe8a81f5e15961e4aeee26b59c6))
+
+## [0.32.0](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.31.5...v0.32.0) (2025-12-30)
+
+
+### Features
+
+* **i18n:** implement pluralization for translations ([de54f15](https://github.com/tuyuritio/astro-theme-thought-lite/commit/de54f15beea3a236b2a3c309c4c5d7e53ea2b93c))
+
+
+### Bug Fixes
+
+* **style:** correct monospace font family variable ([4b52b13](https://github.com/tuyuritio/astro-theme-thought-lite/commit/4b52b13bf3233c68f1c848f0def57a300c0bd912))
+
+## [0.31.5](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.31.4...v0.31.5) (2025-12-29)
+
+
+### Bug Fixes
+
+* **i18n:** declare default translation namespace to `index` ([f417801](https://github.com/tuyuritio/astro-theme-thought-lite/commit/f4178014233bc84cc3047db99d83b894b187454f))
+* **i18n:** improve translation retrieval ([77780ec](https://github.com/tuyuritio/astro-theme-thought-lite/commit/77780ec4394008127e81cfa71ff43c759ca0ebb2))
+
+
+### Miscellaneous Chores
+
+* simplify author display ([3731653](https://github.com/tuyuritio/astro-theme-thought-lite/commit/37316539667112067638fca5bfb78dd28efaffd5))
+
+## [0.31.4](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.31.3...v0.31.4) (2025-12-25)
+
+
+### Styles
+
+* improve layout for long note title ([31c266a](https://github.com/tuyuritio/astro-theme-thought-lite/commit/31c266afd255e9e51c7dbb38f18bc87d53e41673))
+* optimize main structure style ([4990165](https://github.com/tuyuritio/astro-theme-thought-lite/commit/4990165eb66813e12dab88ea5a2b772e32e03efe)), closes [#90](https://github.com/tuyuritio/astro-theme-thought-lite/issues/90)
+
+## [0.31.3](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.31.2...v0.31.3) (2025-12-25)
+
+
+### Styles
+
+* set min-width for images to prevent flickering ([6415d02](https://github.com/tuyuritio/astro-theme-thought-lite/commit/6415d02cca760c4b1d05e00b4ad4a33fc2532f4a))
+
 ## [0.31.2](https://github.com/tuyuritio/astro-theme-thought-lite/compare/v0.31.1...v0.31.2) (2025-12-23)
 
 

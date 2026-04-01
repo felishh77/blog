@@ -2,9 +2,9 @@ import type { APIRoute } from "astro";
 import { generateCodeVerifier, generateState } from "arctic";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
-import { OAuth, type OAuthAccount } from "$utils/oauth";
-import { random, Token } from "$utils/token";
-import { Drifter } from "$db/schema";
+import { OAuth, type OAuthAccount } from "$lib/oauth";
+import { random, Token } from "$lib/token";
+import { Drifter, Email } from "$db/schema";
 
 export const prerender = false;
 
@@ -28,35 +28,39 @@ export const GET: APIRoute = async ({ cookies, params, url, locals, redirect, re
 
 		const db = drizzle(locals.runtime.env.DB);
 		// Insert or update user account in database with conflict resolution
-		const drifter = (
-			await db
-				.insert(Drifter)
-				.values({
-					id: random(16),
-					provider: user.provider,
-					account: user.account,
-					refresh: user.refresh,
-					access: user.access,
-					expire: user.expire?.getTime(),
-					handle: user.handle,
-					name: user.name,
-					description: user.description,
-					image: user.image
-				})
-				.onConflictDoUpdate({
-					// Update existing user if provider+account combination exists
-					target: [Drifter.provider, Drifter.account],
-					set: {
-						access: sql`excluded.access`,
-						expire: sql`excluded.expire`,
-						handle: sql`excluded.handle`,
-						name: sql`excluded.name`,
-						description: sql`excluded.description`,
-						image: sql`excluded.image`
-					}
-				})
-				.returning({ id: Drifter.id })
-		)[0];
+		const drifter = await db
+			.insert(Drifter)
+			.values({
+				id: random(16),
+				provider: user.provider,
+				account: user.account,
+				refresh: user.refresh,
+				access: user.access,
+				expire: user.expire?.getTime(),
+				handle: user.handle,
+				name: user.name,
+				description: user.description,
+				image: user.image
+			})
+			.onConflictDoUpdate({
+				// Update existing user if provider+account combination exists
+				target: [Drifter.provider, Drifter.account],
+				set: {
+					access: sql`excluded.access`,
+					expire: sql`excluded.expire`,
+					handle: sql`excluded.handle`,
+					name: sql`excluded.name`,
+					description: sql`excluded.description`,
+					image: sql`excluded.image`
+				}
+			})
+			.returning({ id: Drifter.id })
+			.get();
+
+		// If email is available from OAuth provider, insert into Email table
+		if (user.email) {
+			await db.insert(Email).values({ drifter: drifter.id, address: user.email, state: "verified" }).onConflictDoNothing();
+		}
 
 		// Issue passport token with user visa for authentication
 		await Token.issue(cookies, "passport", { visa: drifter.id });

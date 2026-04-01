@@ -7,41 +7,34 @@ import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
 import tailwindcss from "@tailwindcss/vite";
 import swup from "@swup/astro";
-// import githubLight from "shiki/themes/github-light.mjs";
 
 import GFM from "remark-gfm";
 import ins from "remark-ins";
 import mark from "remark-flexible-markers";
+import spoiler from "@tuyuritio/remark-spoiler";
 import CJK from "remark-cjk-friendly";
 import CJKStrikethrough from "remark-cjk-friendly-gfm-strikethrough";
+import ruby from "@tuyuritio/remark-ruby";
+import attr from "@tuyuritio/remark-attribute";
 import math from "remark-math";
 import gemoji from "remark-gemoji";
 import footnote from "remark-footnotes-extra";
+import abbr from "@tuyuritio/remark-abbreviation";
 import { remarkExtendedTable as table, extendedTableHandlers as tableHandler } from "remark-extended-table";
-import directive from "remark-directive";
-import ruby from "remark-ruby-directive";
-import alerts from "remark-github-blockquote-alert";
+import alerts from "@tuyuritio/remark-github-alert";
 import { rehypeHeadingIds as ids } from "@astrojs/markdown-remark";
 import anchor from "rehype-autolink-headings";
 import links from "rehype-external-links";
 import katex from "rehype-katex";
+import figure from "@tuyuritio/rehype-image-figure";
+import wrapper from "@tuyuritio/rehype-table-wrapper";
 import sectionize from "@hbsnow/rehype-sectionize";
+import copy from "@tuyuritio/shiki-code-copy";
 
-import spoiler from "./src/utils/remark/spoiler";
-import attr from "./src/utils/remark/attr";
-import abbr from "./src/utils/remark/abbr";
-import wrapper from "./src/utils/remark/table-wrapper";
-import copy from "./src/utils/code-copy";
-import reading from "./src/utils/remark/reading";
-import figure from "./src/utils/remark/figure";
-
-import remarkGithubAdmonitionsToDirectives from "remark-github-admonitions-to-directives";
-import rehypeSlug from "rehype-slug";
-import remarkEmbeddedMedia from "./src/utils/remark/remark-embedded-media.mjs";
-import parseDirectiveNode from "./src/utils/remark/directive.mjs";
+import reading from "./src/lib/reading";
 
 import siteConfig from "./site.config";
-import { ZeoSevenFonts } from "./src/fonts/config";
+import ZeoSevenFonts from "./src/fonts/zeo-seven-fonts";
 
 // https://astro.build/config
 export default defineConfig({
@@ -51,7 +44,7 @@ export default defineConfig({
 		},
 		imageService: "compile"
 	}),
-	site: "https://feli77.com",
+	site: "https://thought-lite.ttio.workers.dev",
 	trailingSlash: "never",
 	i18n: {
 		...siteConfig.i18n,
@@ -66,22 +59,17 @@ export default defineConfig({
 			ins,
 			mark,
 			spoiler,
-			attr,
 			CJK,
 			[CJKStrikethrough, { singleTilde: false }],
+			ruby,
+			attr,
 			math,
 			gemoji,
 			footnote,
 			abbr,
 			[table, { colspanWithEmpty: true }],
-			wrapper,
-			directive,
-			ruby,
-			[alerts, { legacyTitle: true }],
-			reading,
-			remarkGithubAdmonitionsToDirectives,
-			remarkEmbeddedMedia,
-			parseDirectiveNode
+			[alerts, { typeFormat: "capitalize" }],
+			reading
 		],
 		remarkRehype: {
 			footnoteLabel: null,
@@ -99,20 +87,16 @@ export default defineConfig({
 			[links, { target: "_blank", rel: ["nofollow", "noopener", "noreferrer"] }],
 			katex,
 			figure,
-			sectionize,
-			rehypeSlug
+			wrapper,
+			sectionize
 		],
 		smartypants: false,
 		shikiConfig: {
 			themes: {
-				light: "material-theme-lighter",
-				dark: "material-theme-darker"
+				light: "github-light",
+				dark: "dark-plus"
 			},
-			transformers: [
-				copy({
-					duration: 1500
-				})
-			]
+			transformers: [copy({ duration: 1500 })]
 		}
 	},
 	vite: {
@@ -136,21 +120,24 @@ export default defineConfig({
 				name: "Noto Serif",
 				provider: fontProviders.google(),
 				weights: [400, 700],
-				fallbacks: ["serif"],
+				optimizedFallbacks: false,
+				fallbacks: ["Noto Serif", "Georgia", "Times New Roman", "serif"],
 				cssVariable: "--font-noto-serif"
 			},
 			{
 				name: "Noto Serif SC",
 				provider: fontProviders.google(),
 				weights: [400, 700],
-				fallbacks: ["serif"],
+				optimizedFallbacks: false,
+				fallbacks: ["Noto Serif SC", "Source Han Serif SC", "STSong", "Songti SC", "SimSun", "serif"],
 				cssVariable: "--font-noto-serif-sc"
 			},
 			{
 				name: "Noto Serif JP",
 				provider: fontProviders.google(),
 				weights: [400, 700],
-				fallbacks: ["serif"],
+				optimizedFallbacks: false,
+				fallbacks: ["Noto Serif JP", "Source Han Serif JP", "Hiragino Mincho ProN", "MS Mincho", "serif"],
 				cssVariable: "--font-noto-serif-jp"
 			},
 			{
@@ -158,19 +145,32 @@ export default defineConfig({
 				provider: fontProviders.google(),
 				weights: [100],
 				display: "block",
-				fallbacks: ["serif"],
+				subsets: ["fallback"],
+				fallbacks: ["Apple Chancery", "Segoe Script", "cursive"],
 				cssVariable: "--font-playwrite-mx"
 			},
 			{
 				name: "Maple Mono NF CN",
 				provider: ZeoSevenFonts(),
-				fallbacks: ["monospace"],
+				optimizedFallbacks: false,
+				fallbacks: [
+					"Maple Mono NF CN",
+					"Maple Mono NF",
+					"Maple Mono CN",
+					"Maple Mono",
+					"Consolas",
+					"Monaco",
+					"Cascadia Code",
+					"Courier New",
+					"monospace"
+				],
 				cssVariable: "--font-maple-mono-nf-cn"
 			},
 			{
 				name: "The Peak Font Plus",
 				provider: ZeoSevenFonts(),
-				fallbacks: ["serif"],
+				optimizedFallbacks: false,
+				fallbacks: ["Georgia", "STSong", "serif"],
 				cssVariable: "--font-the-peak-font-plus"
 			}
 		]

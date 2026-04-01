@@ -1,8 +1,8 @@
 ---
-import type { MarkdownHeading } from "astro";
 import { getCollection, render } from "astro:content";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import config, { monolocale } from "$config";
-import Time from "$utils/time";
+import Time from "$lib/time";
 import Base from "$layouts/Base.astro";
 import TOC from "$components/TOC.astro";
 import Comments from "$components/comment/Section.astro";
@@ -41,15 +41,30 @@ const { note } = Astro.props;
 // Render markdown content and extract headings for TOC
 const { Content, headings, remarkPluginFrontmatter: frontmatter } = await render(note);
 
+const series = note.data.series
+	? (
+			await getCollection(
+				"note",
+				item => !item.data.draft && item.data.series === note.data.series && (monolocale || item.id.startsWith(`${locale}/`))
+			)
+		)
+			.sort((a, b) => a.data.timestamp.getTime() - b.data.timestamp.getTime())
+			.map(item => ({
+				title: item.data.title,
+				url: getRelativeLocaleUrl(locale, `/note/${monolocale ? item.id : item.id.split("/").slice(1).join("/")}`),
+				current: item.id === note.id
+			}))
+	: undefined;
+
 const t = i18nit(locale);
 ---
 
 <Base title={note.data.title} {locale} description={note.data.description} article={{ timestamp: note.data.timestamp, section: note.data.series, tags: note.data.tags }}>
 	<main class="flex flex-col gap-6">
 		<header class="flex flex-col gap-4">
-			<h1>{note.data.title}</h1>
+			<h1 class="select-text">{note.data.title}</h1>
 			<div class="flex flex-col gap-3 sm:flex-row *:flex *:items-center *:gap-1 *:text-[0.875rem] *:text-secondary">
-				<time datetime={note.data.timestamp.toISOString()}><Icon name="lucide--calendar" />{Time(note.data.timestamp)}</time>
+				<time datetime={note.data.timestamp.toISOString()}><Icon name="lucide--calendar" />{Time.toString(note.data.timestamp)}</time>
 				{
 					note.data.series && (
 						<span>
@@ -66,30 +81,21 @@ const t = i18nit(locale);
 						</span>
 					)
 				}
-				<span><Icon name="lucide--pilcrow" />{t("read.words", { words: frontmatter.words })}</span>
+				<span><Icon name="lucide--pilcrow" />{t("read.words", { count: frontmatter.words })}</span>
 			</div>
 			<hr class="border-b border-weak" />
 		</header>
 
-		<Sensitive {locale} back="/note" sensitive={note.data.sensitive} client:load>
-			<div class="flex gap-5">
-				<section id="markdown-content" class="markdown"><Content /></section>
-				{
-					note.data.toc && (
-						<aside class="hidden sm:block sm:shrink-0 sm:w-[200px]">
-							<div class="sticky top-3 flex flex-col gap-1">
-								<h4>{t("note.contents")}</h4>
-								<nav class="overflow-y-auto">
-									<TOC {headings} />
-								</nav>
-							</div>
-						</aside>
-					)
-				}
+		<Sensitive {locale} back={getRelativeLocaleUrl(locale, "/note")} sensitive={note.data.sensitive} client:load>
+			<div class="contents">
+				<div class="flex gap-5">
+					<section id="markdown-content" class="markdown"><Content /></section>
+					{(note.data.toc || !!note.data.series) && <TOC headings={note.data.toc ? headings : undefined} {locale} {series} />}
+				</div>
+				<blockquote id="comment-section"><Comments {locale} link={`${Astro.url.origin}${Astro.url.pathname}`} section="note" item={note.id} /></blockquote>
 			</div>
-			<blockquote id="comment-section"><Comments {locale} link={`${Astro.url.origin}${Astro.url.pathname}`} section="note" item={note.id} /></blockquote>
 		</Sensitive>
 
-		<Position {locale} />
+		<Position {locale} toc={note.data.toc} series={!!note.data.series} />
 	</main>
 </Base>
