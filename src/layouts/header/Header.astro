@@ -67,7 +67,7 @@ const route = Astro.url.pathname;
 			{
 				!monolocale && (
 					<Menu label="Language switcher">
-						<Icon name="lucide--earth" slot="trigger" />
+						<Icon name="lucide--languages" slot="trigger" />
 						<LanguagePicker {locale} {route} client:load />
 					</Menu>
 				)
