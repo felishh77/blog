@@ -93,8 +93,8 @@ export default defineConfig({
 		smartypants: false,
 		shikiConfig: {
 			themes: {
-				light: "github-light",
-				dark: "dark-plus"
+				light: "catppuccin-latte",
+				dark: "catppuccin-mocha"
 			},
 			transformers: [copy({ duration: 1500 })]
 		}

@@ -8,7 +8,7 @@ const config = siteConfig({
 	prologue: "The time is gone, the song is over\nThought I'd something more to say.",
 	author: {
 		name: "Felix",
-		email: "l.shuheng@outlook.com",
+		email: "me@feli77.com",
 		link: "https://feli77.com"
 	},
 	description: "A personal space to share knowledge and thoughts.",

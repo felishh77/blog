@@ -29,7 +29,7 @@
 
 	.astro-code,
 	.astro-code span {
-		background-color: var(--block-color) !important;
+		background-color: #e6e9ef !important;
 	}
 }
 
@@ -38,7 +38,7 @@
 	--secondary-color: #b4befe;
 	--remark-color: #b4befe;
 	--weak-color: #a6adc8;
-	--background-color: #1e1e2e;
+	--background-color: #181825;
 	--block-color: #313244;
 	--shadow-color: #45475a;
 	--selection-color: #585b70;
