@@ -16,7 +16,7 @@ const config = siteConfig({
 		type: "CC BY-NC-ND 4.0",
 		year: "2026"
 	},
-	timezone: "CST",
+	timezone: "UTC",
 	i18n: {
 		locales: ["en", "zh-cn", "ja"],
 		defaultLocale: "zh-cn"
