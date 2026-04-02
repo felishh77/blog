@@ -4,19 +4,19 @@ import siteConfig, { providers } from "./src/lib/config";
 const env = import.meta.env ?? {};
 
 const config = siteConfig({
-	title: "Feli77's Campsite",
+	title: "FeliCamp",
 	prologue: "The time is gone, the song is over\nThought I'd something more to say.",
 	author: {
 		name: "Felix",
 		email: "me@feli77.com",
 		link: "https://feli77.com"
 	},
-	description: "A personal space to share knowledge and thoughts.",
+	description: "A campsite to share knowledge and thoughts.",
 	copyright: {
 		type: "CC BY-NC-ND 4.0",
 		year: "2026"
 	},
-	timezone: "UTC",
+	timezone: "CST",
 	i18n: {
 		locales: ["en", "zh-cn", "ja"],
 		defaultLocale: "zh-cn"

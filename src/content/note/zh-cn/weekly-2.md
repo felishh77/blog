@@ -5,7 +5,7 @@ series: 周记
 tags: [散记,思絮,技术]
 description: 病&闲
 toc: true
-draft: false
+draft: true
 ---
 
 ## 一场病
