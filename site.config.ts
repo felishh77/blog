@@ -4,7 +4,7 @@ import siteConfig, { providers } from "./src/lib/config";
 const env = import.meta.env ?? {};
 
 const config = siteConfig({
-	title: "FeliCamp",
+	title: "Feli77's Blog",
 	prologue: "The time is gone, the song is over\nThought I'd something more to say.",
 	author: {
 		name: "Felix",

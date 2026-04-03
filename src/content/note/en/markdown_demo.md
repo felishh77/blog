@@ -432,5 +432,3 @@ Preview
 Preview
 
 **Custom attributes**{key="This is a value"}
-
-## Footnotes
