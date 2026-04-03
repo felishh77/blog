@@ -101,26 +101,20 @@ This is a `inline code`
 
 ### Code block
 
-````markdown
-```js
-// calculate fibonacci
-function fibonacci(n) {
-	if (n <= 1) return 1;
-	return fibonacci(n - 1) + fibonacci(n - 2);
+Preview: 
+
+```cpp
+inline int read()
+{
+	int fe = 0, li = 1;
+	for (char x = getchar(); x < '0' || x > '9'; x = getchar())
+	    if (x == '-') li = -1;
+	for (; x >= '0' && x <= '9'; x = getchar()) 
+	    fe = fe * 10 + x - '0';
+	return fe * li;
 }
-````
+```
 
-````
-
-预览：
-
-```js
-// calculate fibonacci
-function fibonacci(n) {
-	if (n <= 1) return 1;
-	return fibonacci(n - 1) + fibonacci(n - 2);
-}
-````
 
 Currently using shiki as the code highlight plugin, supported languages can be referred to at [shiki / languages](https://shiki.matsu.io/languages.html).
 
@@ -330,7 +324,7 @@ Preview:
 
 Preview:
 
-> \[!NOTE\] 
+> [!NOTE] 
 > Normal information
 
 Tip information can be nested multiple levels

@@ -104,23 +104,17 @@ _斜体文本_
 
 ### 代码块
 
-```markdown
-```js
-// calculate fibonacci
-function fibonacci(n) {
-	if (n <= 1) return 1;
-	return fibonacci(n - 1) + fibonacci(n - 2);
-}
-```
-```
-
 预览：
 
-```js
-// calculate fibonacci
-function fibonacci(n) {
-	if (n <= 1) return 1;
-	return fibonacci(n - 1) + fibonacci(n - 2);
+```cpp
+inline int read()
+{
+	int fe = 0, li = 1;
+	for (char x = getchar(); x < '0' || x > '9'; x = getchar())
+	    if (x == '-') li = -1;
+	for (; x >= '0' && x <= '9'; x = getchar()) 
+	    fe = fe * 10 + x - '0';
+	return fe * li;
 }
 ```
 
@@ -380,7 +374,7 @@ You missed the starting gun.
 
 预览：
 
-> [!NOTE/(･ρ･)ﾉ]
+> [!NOTE] (･ρ･)ﾉ
 > 自定义标题文字
 
 ### 增强表格
