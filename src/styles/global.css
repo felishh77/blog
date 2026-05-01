@@ -18,7 +18,6 @@
 [data-theme="light"] {
 	--primary-color: #4c4f69;
 	--secondary-color: #5c5f77;
-	--remark-color: #7287fd;
 	--weak-color: #8c8fa1;
 	--background-color: #eff1f5;
 	--block-color: #ccd0da;
@@ -36,7 +35,6 @@
 [data-theme="dark"] {
 	--primary-color: #cdd6f4;
 	--secondary-color: #b4befe;
-	--remark-color: #b4befe;
 	--weak-color: #6c7086;
 	--background-color: #181825;
 	--block-color: #313244;
@@ -267,7 +265,6 @@ input[type="checkbox"].switch {
 @theme {
 	--color-primary: var(--primary-color);
 	--color-secondary: var(--secondary-color);
-	--color-remark: var(--remark-color);
 	--color-weak: var(--weak-color);
 	--color-background: var(--background-color);
 	--color-block: var(--block-color);

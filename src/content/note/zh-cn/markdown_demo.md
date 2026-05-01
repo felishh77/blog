@@ -267,9 +267,8 @@ $$
 
 预览：
 
-> No one told you when to run
-  
-You missed the starting gun.
+> No one told you when to run 
+> You missed the starting gun.
 
 引用里也可以继续嵌套语法。
 
